@@ -1,26 +1,46 @@
-<html>
-  <head>
-    <style>
-      body {
-        align-items: center;
-        background-color: #224;
-        display: flex;
-        justify-content: center;
-        margin: none;
-        padding: none;
-      }
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Socket.io Client</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      align-items: center;
+      background-color: #224;
+      display: inherit;
+      justify-content: center;
+      margin: none;
+      padding: 2em 4em;
+    }
 
-      body.shutdown {
-        background-color: #422;
-      }
+    body.shutdown {
+      background-color: #422;
+    }
 
-      body.shutdown #player {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
+    body.shutdown #player {
+      display: none;
+    }
+
+    #log {
+      padding: 1em 2em;
+      background: #fefefe;
+      border-radius: 4px;
+      font-family: consolas, verdana, tahoma;
+      margin: 1em auto;
+      display: block;
+    }
+    #log p {
+      margin: 5px auto;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center;">
     <audio id="player"></audio>
-    <script src="receiver.js"></script>
-  </body>
+  </div>
+  <pre id="log"><p>Check the console...</p></pre>
+  <script src="socket.io-2.1.1.js"></script>
+  <script src="receiver.js"></script>
+</body>
 </html>

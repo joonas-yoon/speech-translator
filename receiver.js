@@ -5,7 +5,7 @@
 // Note: |window.currentStream| was set in background.js.
 
 // Stop video play-out, stop the MediaStreamTracks, and set style class to
-// "shutdown".
+// 'shutdown'.
 function shutdownReceiver() {
   if (!window.currentStream) {
     return;
@@ -22,7 +22,18 @@ function shutdownReceiver() {
   document.body.className = 'shutdown';
 }
 
-window.addEventListener('load', function() {
+function init() {
+  init_connection();
+  init_player();
+}
+
+window.addEventListener('load', init);
+
+// Shutdown when the receiver page is closed.
+window.addEventListener('beforeunload', shutdownReceiver);
+
+
+function init_player() {
   // Start video play-out of the captured audio/video MediaStream once the page
   // has loaded.
   var player = document.getElementById('player');
@@ -43,7 +54,43 @@ window.addEventListener('load', function() {
       shutdownReceiver();
     });
   }
-});
+}
 
-// Shutdown when the receiver page is closed.
-window.addEventListener('beforeunload', shutdownReceiver);
+function init_connection(){
+  var socket = io.connect('http://13.209.124.153:8080', { transports: ['websocket'] });
+  socket.on('connect', onConnect);
+  socket.on('disconnect', onDisconnect);
+  socket.on('connect_error', onError);
+  socket.on('reconnect_error', onError);
+
+  socket.on('counter', onMessage);
+
+  function onConnect(evt) {
+      logging('<span style="color: green;">Connected!</span>');
+      sendMessage('hello?');
+  }
+
+  function onDisconnect(evt) {
+      logging('<span style="color: red;">Disconnected.</span>');
+  }
+
+  function onMessage(data) {
+      logging('<span style="color: blue;">RESPONSE: ' + data+'</span>');
+  }
+
+  function onError(message) {
+      logging('<span style="color: red;">ERROR:</span> ' + message);
+  }
+
+  function sendMessage(message) {
+      logging('MESSAGE: ' + message);
+  }
+
+  function logging(message){
+    var output = document.getElementById('log');
+    var pre = document.createElement('p');
+    pre.style.wordWrap = 'break-word';
+    pre.innerHTML = message;
+    output.appendChild(pre);
+  }
+}
