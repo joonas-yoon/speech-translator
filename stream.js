@@ -4,12 +4,14 @@
 function initialize(){
   // set up basic variables for app
 
+  var host = '<your_host:port>';
+
   var btn_record = document.querySelector('.btn_record');
   var btn_stop = document.querySelector('.btn_stop');
   var soundClips = document.querySelector('.sound-clips');
   var canvas = document.querySelector('.visualizer');
   var mainSection = document.querySelector('.main-controls');
-  var audioLive = document.querySelector('#player');
+  var audioLive = document.getElementById('player');
 
   var random_id = Math.random().toString(36).substring(2, 12);
 
@@ -61,7 +63,7 @@ function initialize(){
 
         var clipName = get_current_clipname();
         console.log(clipName);
-        var clipContainer = document.createElement('article');
+        var clipContainer = document.createElement('form');
         var clipLabel = document.createElement('p');
         var audio = document.createElement('audio');
         var deleteButton = document.createElement('button');
@@ -71,6 +73,10 @@ function initialize(){
         audio.setAttribute('controls', '');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete';
+
+        clipContainer.id = clipName;
+        clipContainer.enctype = 'multipart/form-data';
+        clipContainer.action = host + '/collect';
 
         clipContainer.appendChild(audio);
         clipContainer.appendChild(clipLabel);
@@ -87,7 +93,7 @@ function initialize(){
         deleteButton.onclick = function(e) {
           evtTgt = e.target;
           evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
-        }
+        };
 
         clipLabel.onclick = function() {
           var existingName = clipLabel.textContent;
@@ -97,7 +103,9 @@ function initialize(){
           } else {
             clipLabel.textContent = newClipName;
           }
-        }
+        };
+
+        send_audio(clipContainer, blob);
       }
 
       mediaRecorder.ondataavailable = function(e) {
@@ -113,6 +121,21 @@ function initialize(){
 
   } else {
      console.log('getUserMedia not supported on your browser!');
+  }
+
+  function send_audio(form, audio){
+    var fileData = new FormData(form);
+    fileData.append('audio', audio);
+    $.ajax({
+      url: form.action,
+      type: 'post',
+      data: fileData,
+      async: false,
+      processData: false,
+      contentType: false
+    }).done(function(response){
+        console.info('success', response);
+    });
   }
 
   function visualize(stream) {
