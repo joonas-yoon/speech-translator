@@ -4,16 +4,18 @@
 function initialize(){
   // set up basic variables for app
 
-  var record = document.querySelector('.record');
-  var stop = document.querySelector('.stop');
+  var btn_record = document.querySelector('.btn_record');
+  var btn_stop = document.querySelector('.btn_stop');
   var soundClips = document.querySelector('.sound-clips');
   var canvas = document.querySelector('.visualizer');
   var mainSection = document.querySelector('.main-controls');
   var audioLive = document.querySelector('#player');
 
+  var random_id = Math.random().toString(36).substring(2, 12);
+
   // disable stop button while not recording
 
-  stop.disabled = true;
+  btn_stop.disabled = true;
 
   // visualiser setup - create web audio api context and canvas
 
@@ -32,48 +34,43 @@ function initialize(){
 
       visualize(stream);
 
-      record.onclick = function() {
+      btn_record.onclick = function() {
         mediaRecorder.start();
         console.log(mediaRecorder.state);
         console.log("recorder started");
-        record.style.background = "red";
+        btn_record.style.background = "red";
 
-        stop.disabled = false;
-        record.disabled = true;
+        btn_stop.disabled = false;
+        btn_record.disabled = true;
       }
 
-      stop.onclick = function() {
+      btn_stop.onclick = function() {
         mediaRecorder.stop();
         console.log(mediaRecorder.state);
         console.log("recorder stopped");
-        record.style.background = "";
-        record.style.color = "";
+        btn_record.style.background = "";
+        btn_record.style.color = "";
         // mediaRecorder.requestData();
 
-        stop.disabled = true;
-        record.disabled = false;
+        btn_stop.disabled = true;
+        btn_record.disabled = false;
       }
 
       mediaRecorder.onstop = function(e) {
         console.log("data available after MediaRecorder.stop() called.");
 
-        var clipName = prompt('Enter a name for your sound clip?','My unnamed clip');
+        var clipName = get_current_clipname();
         console.log(clipName);
         var clipContainer = document.createElement('article');
         var clipLabel = document.createElement('p');
         var audio = document.createElement('audio');
         var deleteButton = document.createElement('button');
        
+        clipLabel.textContent = clipName;
         clipContainer.classList.add('clip');
         audio.setAttribute('controls', '');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete';
-
-        if(clipName === null) {
-          clipLabel.textContent = 'My unnamed clip';
-        } else {
-          clipLabel.textContent = clipName;
-        }
 
         clipContainer.appendChild(audio);
         clipContainer.appendChild(clipLabel);
@@ -172,9 +169,24 @@ function initialize(){
     }
   }
 
+  function get_current_clipname(){
+    return random_id + "-" + (new Date().getTime());
+  }
+
+  (function do_cycling(){
+    if(!!btn_stop.disabled){
+      btn_record.click();
+      setTimeout(do_cycling, 10 * 1000);
+    }
+    else {
+      btn_stop.click();
+      setTimeout(do_cycling, 10);
+    }
+  })();
+
   window.onresize = function() {
     canvas.width = mainSection.offsetWidth;
-  }
+  };
 
   window.onresize();
 }
