@@ -15,5 +15,6 @@
   "permissions": [
     "tabs",
     "tabCapture"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' blob: filesystem: chrome-extension-resource:; object-src 'self'"
 }
