@@ -1,0 +1,34 @@
+header {
+  height: 70px;
+}
+
+.main-controls {
+  padding-bottom: 0.7rem;
+  height: 170px;
+}
+
+.sound-clips {
+  box-shadow: inset 0 3px 4px rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.1);
+  height: calc(100% - 240px - 0.7rem);
+  overflow: scroll;
+}
+
+label {
+    font-family: 'NotoColorEmoji';
+    font-size: 3rem;
+    position: absolute;
+    top: 2px;
+    right: 3px;
+    z-index: 5;
+    cursor: pointer;
+}
+
+input[type=checkbox] {
+   position: absolute;
+   top: -100px;
+}
+
+input[type=checkbox]:checked ~ aside {
+  transform: translateX(0);
+}
