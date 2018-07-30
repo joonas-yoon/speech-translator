@@ -49,10 +49,10 @@ function init_streamer(){
 
   var btn_record = document.querySelector('.btn_record');
   var btn_stop = document.querySelector('.btn_stop');
-  var soundClips = document.querySelector('.sound-clips');
   var canvas = document.querySelector('.visualizer');
   var mainSection = document.querySelector('.main-controls');
   var audioLive = document.getElementById('player');
+  var resultContainer = document.getElementById('results');
 
   var random_id = Math.random().toString(36).substring(2, 12);
 
@@ -110,27 +110,29 @@ function init_streamer(){
       mediaRecorder.onstop = function(e) {
         console.log("data available after MediaRecorder.stop() called.");
 
-        var clipName = get_current_clipname();
-        console.log(clipName);
-        var clipContainer = document.createElement('div');
-        var clipLabel = document.createElement('p');
+        var clipContainer = document.createElement('blockquote');
+        var clipText = document.createElement('p');
+        var clipDetail = document.createElement('footer');
         var audio = document.createElement('audio');
-        var deleteButton = document.createElement('button');
-       
-        clipLabel.textContent = clipName;
-        clipContainer.classList.add('clip');
-        audio.setAttribute('controls', '');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'delete';
+        var playButton = document.createElement('i');
+        var deleteButton = document.createElement('i');
 
-        clipContainer.id = clipName;
-        clipContainer.enctype = 'multipart/form-data';
-        clipContainer.action = window.remote_host + '/collect';
+        clipContainer.style.display = 'none';
+        audio.style.display = 'none';
+
+        clipContainer.className = 'blockquote';
+        clipDetail.className = 'blockquote-footer';
+        clipText.className = 'text';
+        audio.setAttribute('controls', '');
+        playButton.className = 'fas fa-headphones';
+        deleteButton.className = 'fas fa-trash-alt';
 
         clipContainer.appendChild(audio);
-        clipContainer.appendChild(clipLabel);
+        clipContainer.appendChild(clipText);
+        clipContainer.appendChild(clipDetail);
+        clipContainer.appendChild(playButton);
         clipContainer.appendChild(deleteButton);
-        soundClips.appendChild(clipContainer);
+        resultContainer.appendChild(clipContainer);
 
         audio.controls = true;
         var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
@@ -139,20 +141,14 @@ function init_streamer(){
         audio.src = audioURL;
         console.log("recorder stopped");
 
-        deleteButton.onclick = function(e) {
+        playButton.addEventListener('click', function(e){
+          audio.style.display = 'block';
+        });
+
+        deleteButton.addEventListener('click', function(e){
           evtTgt = e.target;
           evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
-        };
-
-        clipLabel.onclick = function() {
-          var existingName = clipLabel.textContent;
-          var newClipName = prompt('Enter a new name for your sound clip?');
-          if(newClipName === null) {
-            clipLabel.textContent = existingName;
-          } else {
-            clipLabel.textContent = newClipName;
-          }
-        };
+        });
 
         send_audio(clipContainer, blob);
       }
@@ -173,27 +169,52 @@ function init_streamer(){
      console.log('getUserMedia not supported on your browser!');
   }
 
-  function send_audio(form, audio){
+  function send_audio(container, audio){
     var fileData = new FormData();
     fileData.append('audio', audio);
+    fileData.append('filename', get_current_clipname());
+    fileData.append('langcode', 'en-US');
     $.ajax({
-      url: form.action,
+      url: window.remote_host + '/collect',
       type: 'post',
       data: fileData,
       async: false,
       processData: false,
       contentType: false
     }).done(function(response){
-      post_recognize(response);
+      post_recognize(container, response);
     });
   }
 
-  function post_recognize(response){
-    console.log(response);
+  function post_recognize(container, response){
+    if (!response.hasOwnProperty('results') || !response.results.length) {
+      container.remove();
+      return;
+    }
+
+    var results = response.results;
+    container.style.display = 'block';
+    for (var i in results){
+      if (results.hasOwnProperty(i)) {
+        var alternatives = results[i].alternatives || Array();
+        var average_conf = 0.0;
+        for (var i=0; i < alternatives.length; i++){
+          var text = alternatives[i].transcript;
+          if (!text) continue;
+
+          var confidence = alternatives[i].confidence || 0.0;
+          var quote = container.querySelector('.text');
+          quote.innerText += (i > 0 ? '<br>' : '') + text;
+
+          var detail = container.querySelector('.blockquote-footer');
+          average_conf = (average_conf * i + confidence) / (i + 1.);
+          detail.innerText = (Math.round(average_conf * 100 * 100)/100) + '%';
+        }
+      }
+    }
   }
 
   function visualize(stream) {
-    console.log('visualize', stream);
     var source = audioCtx.createMediaStreamSource(stream);
 
     var analyser = audioCtx.createAnalyser();

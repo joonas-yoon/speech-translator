@@ -4,33 +4,36 @@
   <meta charset="utf-8">
   <title>Using the MediaStream Recording API</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootflat.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   <link rel="stylesheet" href="stream.css" />
 </head>
 <body>
 
 <div class="container">
 
-  <div class="wrapper">
-    <audio id="player"></audio>
-  </div>
-
-  <header>
-    <h1>Web dictaphone</h1>
+  <header class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="heading">Speech Translator</h1>
   </header>
 
-  <section class="main-controls">
+  <div class="player main-controls">
+    <audio id="player"></audio>
     <canvas class="visualizer" height="60px"></canvas>
     <div id="buttons">
       <button class="btn_record">Record</button>
       <button class="btn_stop">Stop</button>
     </div>
-  </section>
+  </div>
 
-  <section class="sound-clips"></section>
+  <section id="results"></section>
 
 </div>
 
 <script src="jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.fs.selecter.min.js"></script>
+<script src="js/jquery.fs.stepper.min.js"></script>
 <script src="receiver.js"></script>
 
 </body>
