@@ -15,15 +15,31 @@
 
   <header class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="heading">Speech Translator</h1>
+    <p class="lead">
+      Detect audio from your current tab and translate its speech.
+    </p>
   </header>
 
   <div class="player main-controls">
     <audio id="player"></audio>
+    <p class="lead">This is audio stream from your tab</p>
     <canvas class="visualizer" height="60px"></canvas>
     <div id="buttons">
       <button class="btn_record">Record</button>
       <button class="btn_stop">Stop</button>
     </div>
+
+    <hr/>
+
+    <button id="btn_main" class="btn btn-lg start">
+      <span class="label-play">
+        <i class="fas fa-fw fa-play"></i> Start
+      </span>
+      <span class="label-stop">
+        <i class="fas fa-fw fa-stop"></i> Stop
+      </span>
+      Translate
+    </button>
   </div>
 
   <section id="results"></section>

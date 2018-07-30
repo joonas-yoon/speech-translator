@@ -43,10 +43,11 @@ window.addEventListener('beforeunload', shutdownReceiver);
 
 // forked from https://github.com/mdn/web-dictaphone
 function init_streamer(){
-  window.remote_host = 'http://13.209.124.153:8000';
+  window.remote_host = 'http://api.speechtranslator.ga:3000';
 
   // set up basic variables for app
 
+  var mainButton = document.getElementById('btn_main');
   var btn_record = document.querySelector('.btn_record');
   var btn_stop = document.querySelector('.btn_stop');
   var canvas = document.querySelector('.visualizer');
@@ -174,11 +175,11 @@ function init_streamer(){
     fileData.append('audio', audio);
     fileData.append('filename', get_current_clipname());
     fileData.append('langcode', 'en-US');
+
     $.ajax({
       url: window.remote_host + '/collect',
       type: 'post',
       data: fileData,
-      async: false,
       processData: false,
       contentType: false
     }).done(function(response){
@@ -198,6 +199,7 @@ function init_streamer(){
       if (results.hasOwnProperty(i)) {
         var alternatives = results[i].alternatives || Array();
         var average_conf = 0.0;
+        console.log('[alternatives]', alternatives);
         for (var i=0; i < alternatives.length; i++){
           var text = alternatives[i].transcript;
           if (!text) continue;
@@ -209,9 +211,34 @@ function init_streamer(){
           var detail = container.querySelector('.blockquote-footer');
           average_conf = (average_conf * i + confidence) / (i + 1.);
           detail.innerText = (Math.round(average_conf * 100 * 100)/100) + '%';
+
+          var translated = document.createElement('i');
+          translated.className = 'translated';
+          quote.appendChild(translated);
+          request_translate(translated, text);
         }
       }
     }
+
+    scrollDownTo(resultContainer);
+  }
+
+  function request_translate(output, text){
+    console.log(`[text]: ${text}`);
+
+    $.ajax({
+      url: window.remote_host + '/translate',
+      type: 'post',
+      data: JSON.stringify({
+        dst_lang: 'ko',
+        src_text: text
+      }),
+      processData: false,
+      contentType: 'application/json'
+    }).done(function(response){
+      output.innerHTML += '<br>' + response[0];
+      scrollDownTo(resultContainer);
+    });
   }
 
   function visualize(stream) {
@@ -265,6 +292,10 @@ function init_streamer(){
       canvasCtx.stroke();
 
     }
+  }
+
+  function scrollDownTo(el){
+    window.scrollTo(0, el.scrollHeight);
   }
 
   function get_current_clipname(){

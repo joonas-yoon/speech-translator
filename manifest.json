@@ -1,7 +1,7 @@
 {
-  "name": "Speech Translator (dev)",
-  "description": "Capture a tab and play in a <video> element in a separate tab.",
-  "version": "1",
+  "name": "Speech Translator",
+  "description": "Detect audio from your current tab and translate it.",
+  "version": "1.1",
   "manifest_version": 2,
   "background": {
     "scripts": [

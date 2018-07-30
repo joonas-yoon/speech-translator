@@ -21,6 +21,21 @@ header .heading {
   line-height: 1.2;
 }
 
+.btn.start {
+  background-color: #3bafda;
+  border-color: #3bafda;
+}
+.btn.start > .label-stop {
+  display: none;
+}
+.btn.stop {
+  background-color: #da4453;
+  border-color: #da4453;
+}
+.btn.stop > .label-play {
+  display: none;
+}
+
 #buttons {
   display: none;
 }
@@ -34,6 +49,7 @@ header .heading {
 }
 
 .main-controls .visualizer {
+  display: block;
   margin-top: 1em;
 }
 
@@ -46,9 +62,14 @@ header .heading {
   color: #007bff;
   margin-right: 5px;
 }
+
 #results .fa-trash-alt {
   color: #dc3545;
   margin-right: 5px;
+}
+
+i.translated {
+  display: block;
 }
 
 audio {
