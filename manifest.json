@@ -17,5 +17,5 @@
     "tabCapture",
     "http://*/*"
   ],
-  "content_security_policy": "script-src 'self' blob: filesystem: chrome-extension-resource:; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://use.fontawesome.com blob: filesystem: chrome-extension-resource:; object-src 'self';"
 }
