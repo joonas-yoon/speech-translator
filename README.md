@@ -3,6 +3,13 @@
 
 Forked from [Sample Extension - TabCapture](https://developer.chrome.com/extensions/samples#search:tabcapture)
 
-- [Google Chrome Extension](https://chrome.google.com/webstore/category/extensions)
+## It use ...
+- [Google Chrome Extensions](https://chrome.google.com/webstore/category/extensions)
 - [Google Cloud Speech-To-Text](https://cloud.google.com/speech-to-text/)
-- And so on ...
+- [Google Cloud Storage](https://cloud.google.com/storage/)
+- [Google Cloud Translation API](https://cloud.google.com/translate/)
+
+
+## Screenshots
+
+comming soon
