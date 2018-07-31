@@ -43,7 +43,7 @@ window.addEventListener('beforeunload', shutdownReceiver);
 
 // forked from https://github.com/mdn/web-dictaphone
 function init_streamer(){
-  window.remote_host = 'http://api.speechtranslator.ga:3000';
+  window.remote_host = 'http://api.speechtranslator.ga';
 
   // set up basic variables for app
 
@@ -236,7 +236,10 @@ function init_streamer(){
       processData: false,
       contentType: 'application/json'
     }).done(function(response){
-      output.innerHTML += '<br>' + response[0];
+      console.log('translated', response);
+      var ctext = document.createElement('span');
+      ctext.innerText = response[0];
+      output.appendChild(ctext);
       scrollDownTo(resultContainer);
     });
   }
