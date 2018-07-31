@@ -1,7 +1,7 @@
 
 # Speech-Translate-Extension
 
-Forked from [Sample Extension - TabCapture](https://developer.chrome.com/extensions/samples#search:tabcapture)
+[Here](https://github.com/joonas-yoon/speech-translator-server) is repository for web server to connect with this.
 
 ## It use ...
 - [Google Chrome Extensions](https://chrome.google.com/webstore/category/extensions)
