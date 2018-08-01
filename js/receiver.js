@@ -195,7 +195,9 @@ function init_streamer(){
     var fileData = new FormData();
     fileData.append('audio', audio);
     fileData.append('filename', get_current_clipname());
-    fileData.append('langcode', 'en-US');
+
+    var langcode = $("#src_lang").dropdown('get value') || 'en-US';
+    fileData.append('langcode', langcode);
 
     $.ajax({
       url: window.remote_host + '/collect',
@@ -260,7 +262,7 @@ function init_streamer(){
       url: window.remote_host + '/translate',
       type: 'post',
       data: JSON.stringify({
-        dst_lang: 'ko',
+        dst_lang: $("#dst_lang").dropdown('get value'),
         src_text: text
       }),
       processData: false,
@@ -350,6 +352,8 @@ function init_streamer(){
   window.onresize();
 
   $(document).ready(function(){
+    var msg = $('.ui.configuration.message');
+
     function init_languages(dropdown, default_lang){
       $.ajax({
         url: window.remote_host + '/translate/supports',
@@ -361,11 +365,28 @@ function init_streamer(){
         });
         dropdown
           .dropdown({values: langs})
-          .dropdown('set selected', default_lang);
+          .dropdown('set selected', default_lang)
+          .dropdown({
+            onChange: function(value, name, $selectedItem) {
+              if($selectedItem.parent().parent().data('type') == 'src'){
+                msg.find('.source').text(name);
+              } else {
+                msg.find('.destination').text(name);
+              }
+              msg.transition('fade in');
+            }
+          });
       });
     }
 
-    init_languages($("#src_lang"), 'en');
-    init_languages($("#dst_lang"), 'ko');
+    var src_lang = $("#src_lang");
+    var dst_lang = $("#dst_lang");
+
+    init_languages(src_lang, 'en');
+    init_languages(dst_lang, 'ko');
+
+    $('.ui.message .close').on('click', function() {
+      $(this).closest('.message').transition('fade');
+    });
   });
 }

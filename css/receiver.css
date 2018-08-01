@@ -106,3 +106,7 @@ audio {
 #language_selector {
   text-align: center;
 }
+
+.configuration.message {
+  display: none;
+}
