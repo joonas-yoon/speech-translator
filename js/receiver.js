@@ -350,7 +350,22 @@ function init_streamer(){
   window.onresize();
 
   $(document).ready(function(){
-    $("#src_lang").dropdown();
-    $("#dst_lang").dropdown();
+    function init_languages(dropdown, default_lang){
+      $.ajax({
+        url: window.remote_host + '/translate/supports',
+        type: 'get'
+      }).done(function(response){
+        var langs = [];
+        (response || []).forEach(function(e){
+          langs.push({value: e.code, name: e.name});
+        });
+        dropdown
+          .dropdown({values: langs})
+          .dropdown('set selected', default_lang);
+      });
+    }
+
+    init_languages($("#src_lang"), 'en');
+    init_languages($("#dst_lang"), 'ko');
   });
 }
