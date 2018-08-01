@@ -122,6 +122,7 @@ function init_streamer(){
 
         var clipContainer = document.createElement('blockquote');
         var clipText = document.createElement('p');
+        var clipTranslated = document.createElement('div');
         var clipDetail = document.createElement('footer');
         var audio = document.createElement('audio');
         var playButton = document.createElement('i');
@@ -131,14 +132,16 @@ function init_streamer(){
         audio.style.display = 'none';
 
         clipContainer.className = 'blockquote';
-        clipDetail.className = 'blockquote-footer';
         clipText.className = 'text';
+        clipTranslated.className = 'translated';
+        clipDetail.className = 'blockquote-footer';
         audio.setAttribute('controls', '');
         playButton.className = 'fas fa-headphones';
         deleteButton.className = 'fas fa-trash-alt';
 
         clipContainer.appendChild(audio);
         clipContainer.appendChild(clipText);
+        clipContainer.appendChild(clipTranslated);
         clipContainer.appendChild(clipDetail);
         clipContainer.appendChild(playButton);
         clipContainer.appendChild(deleteButton);
@@ -235,9 +238,7 @@ function init_streamer(){
           average_conf = (average_conf * i + confidence) / (i + 1.);
           detail.innerText = (Math.round(average_conf * 100 * 100)/100) + '%';
 
-          var translated = document.createElement('i');
-          translated.className = 'translated';
-          quote.appendChild(translated);
+          var translated = container.querySelector('.translated');
           request_translate(translated, text);
         }
       }
@@ -259,10 +260,8 @@ function init_streamer(){
       processData: false,
       contentType: 'application/json'
     }).done(function(response){
-      console.log('translated', response);
-      var ctext = document.createElement('span');
-      ctext.innerText = response[0];
-      output.appendChild(ctext);
+      console.log('translated', response[0], response[1].data);
+      output.innerHTML += '<p>' + response[0] + '</p>';
     });
   }
 

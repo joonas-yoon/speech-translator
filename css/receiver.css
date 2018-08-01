@@ -58,6 +58,15 @@ header .heading {
   border: none;
 }
 
+#results .blockquote-footer {
+  margin-top: 1rem;
+}
+
+#results .translated p {
+  font-style: italic;
+  color: #333333;
+}
+
 #results .fa-headphones {
   color: #007bff;
   margin-right: 5px;
