@@ -232,7 +232,7 @@ function init_streamer(){
 
           var confidence = alternatives[i].confidence || 0.0;
           var quote = container.querySelector('.text');
-          quote.innerText += (i > 0 ? '<br>' : '') + text;
+          quote.innerHTML += (i > 0 ? '<br>' : '') + text;
 
           var detail = container.querySelector('.blockquote-footer');
           average_conf = (average_conf * i + confidence) / (i + 1.);
