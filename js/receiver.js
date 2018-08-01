@@ -142,7 +142,7 @@ function init_streamer(){
         clipContainer.appendChild(clipDetail);
         clipContainer.appendChild(playButton);
         clipContainer.appendChild(deleteButton);
-        resultContainer.appendChild(clipContainer);
+        $(resultContainer).prepend(clipContainer);
 
         audio.controls = true;
         var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
@@ -243,7 +243,6 @@ function init_streamer(){
       }
     }
 
-    scrollDownTo(resultContainer);
     loadingSpinner.classList.remove('loading');
   }
 
@@ -264,7 +263,6 @@ function init_streamer(){
       var ctext = document.createElement('span');
       ctext.innerText = response[0];
       output.appendChild(ctext);
-      scrollDownTo(resultContainer);
     });
   }
 
@@ -319,10 +317,6 @@ function init_streamer(){
       canvasCtx.stroke();
 
     }
-  }
-
-  function scrollDownTo(el){
-    window.scrollTo(0, el.scrollHeight);
   }
 
   function get_current_clipname(){
