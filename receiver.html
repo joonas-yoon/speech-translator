@@ -4,16 +4,15 @@
   <meta charset="utf-8">
   <title>Using the MediaStream Recording API</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/bootflat.min.css" />
+  <link rel="stylesheet" href="css/semantic.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   <link rel="stylesheet" href="css/receiver.css" />
 </head>
 <body>
 
-<div class="container">
+<div class="ui container">
 
-  <header class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <header class="text-center">
     <h1 class="heading">Speech Translator</h1>
     <p class="lead">
       Detect audio from your current tab and translate its speech.
@@ -28,19 +27,51 @@
       <button class="btn_record">Record</button>
       <button class="btn_stop">Stop</button>
     </div>
-
-    <hr/>
-
-    <button id="btn_main" class="btn btn-lg start">
-      <span class="label-play">
-        <i class="fas fa-fw fa-play"></i> Start
-      </span>
-      <span class="label-stop">
-        <i class="fas fa-fw fa-stop"></i> Stop
-      </span>
-      Translate
-    </button>
   </div>
+
+  <div class="ui three column grid" id="language_selector">
+    <div class="row">
+      <div class="column">
+        <div class="ui floating dropdown labeled search icon basic button" id="src_lang">
+          <i class="microphone icon"></i>
+          <span class="text">Select Language</span>
+          <div class="menu">
+            <div class="item">Arabic</div>
+            <div class="item">Chinese</div>
+            <div class="item">Danish</div>
+            <div class="item">Dutch</div>
+            <div class="item">English</div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui floating dropdown labeled search icon basic button" id="dst_lang">
+          <i class="font icon"></i>
+          <span class="text">Select Language</span>
+          <div class="menu">
+            <div class="item">Arabic</div>
+            <div class="item">Chinese</div>
+            <div class="item">Danish</div>
+            <div class="item">Dutch</div>
+            <div class="item">English</div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <button id="btn_main" class="ui primary button fluid start">
+          <span class="label-play">
+            <i class="fas fa-fw fa-play"></i> Start
+          </span>
+          <span class="label-stop">
+            <i class="fas fa-fw fa-stop"></i> Stop
+          </span>
+          Translate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui divider"></div>
 
   <div id="loading_spinner"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
 
@@ -49,9 +80,7 @@
 </div>
 
 <script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.fs.selecter.min.js"></script>
-<script src="js/jquery.fs.stepper.min.js"></script>
+<script src="js/semantic.min.js"></script>
 <script src="js/receiver.js"></script>
 
 </body>

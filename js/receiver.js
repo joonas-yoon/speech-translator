@@ -131,10 +131,10 @@ function init_streamer(){
         clipContainer.style.display = 'none';
         audio.style.display = 'none';
 
-        clipContainer.className = 'blockquote';
+        clipContainer.className = 'ui vertical result segment';
         clipText.className = 'text';
         clipTranslated.className = 'translated';
-        clipDetail.className = 'blockquote-footer';
+        clipDetail.className = 'details';
         audio.setAttribute('controls', '');
         playButton.className = 'fas fa-headphones';
         deleteButton.className = 'fas fa-trash-alt';
@@ -174,12 +174,16 @@ function init_streamer(){
         if(this.classList.contains('start')){
           enable = true;
           this.classList.add('stop');
+          this.classList.add('red');
           this.classList.remove('start');
+          this.classList.remove('primary');
           timer = do_cycling();
         } else {
           enable = false;
           this.classList.remove('stop');
+          this.classList.remove('red');
           this.classList.add('start');
+          this.classList.add('primary');
           clearTimeout(timer);
         }
       }
@@ -215,31 +219,33 @@ function init_streamer(){
 
   function post_recognize(container, response){
     if (!response.hasOwnProperty('results') || !response.results.length) {
+
       container.remove();
-      return;
-    }
 
-    var results = response.results;
-    container.style.display = 'block';
-    for (var i in results){
-      if (results.hasOwnProperty(i)) {
-        var alternatives = results[i].alternatives || Array();
-        var average_conf = 0.0;
-        console.log('[alternatives]', alternatives);
-        for (var i=0; i < alternatives.length; i++){
-          var text = alternatives[i].transcript;
-          if (!text) continue;
+    } else {
 
-          var confidence = alternatives[i].confidence || 0.0;
-          var quote = container.querySelector('.text');
-          quote.innerHTML += (i > 0 ? '<br>' : '') + text;
+      var results = response.results;
+      container.style.display = 'block';
+      for (var i in results){
+        if (results.hasOwnProperty(i)) {
+          var alternatives = results[i].alternatives || Array();
+          var average_conf = 0.0;
+          console.log('[alternatives]', alternatives);
+          for (var i=0; i < alternatives.length; i++){
+            var text = alternatives[i].transcript;
+            if (!text) continue;
 
-          var detail = container.querySelector('.blockquote-footer');
-          average_conf = (average_conf * i + confidence) / (i + 1.);
-          detail.innerText = (Math.round(average_conf * 100 * 100)/100) + '%';
+            var confidence = alternatives[i].confidence || 0.0;
+            var quote = container.querySelector('.text');
+            quote.innerHTML += (i > 0 ? '<br>' : '') + text;
 
-          var translated = container.querySelector('.translated');
-          request_translate(translated, text);
+            var detail = container.querySelector('.details');
+            average_conf = (average_conf * i + confidence) / (i + 1.);
+            detail.innerText = 'Confidence: ' + (Math.round(average_conf * 100 * 100)/100) + '%';
+
+            var translated = container.querySelector('.translated');
+            request_translate(translated, text);
+          }
         }
       }
     }
@@ -342,4 +348,9 @@ function init_streamer(){
   };
 
   window.onresize();
+
+  $(document).ready(function(){
+    $("#src_lang").dropdown();
+    $("#dst_lang").dropdown();
+  });
 }

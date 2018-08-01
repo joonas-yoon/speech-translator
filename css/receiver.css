@@ -1,18 +1,14 @@
-body {
-    margin: 0;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    text-align: left;
-    background-color: #fff;
-}
-
 header {
   display: block;
   max-width: 720px;
   margin: 0 auto;
+  padding-top: 1em;
+}
+
+header *, p.lead {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
+  font-size: 1.5rem;
+  font-weight: 100;
 }
 
 header .heading {
@@ -21,18 +17,10 @@ header .heading {
   line-height: 1.2;
 }
 
-.btn.start {
-  background-color: #3bafda;
-  border-color: #3bafda;
-}
-.btn.start > .label-stop {
+#btn_main.start > .label-stop {
   display: none;
 }
-.btn.stop {
-  background-color: #da4453;
-  border-color: #da4453;
-}
-.btn.stop > .label-play {
+#btn_main.stop > .label-play {
   display: none;
 }
 
@@ -53,35 +41,40 @@ header .heading {
   margin-top: 1em;
 }
 
-#results blockquote {
+.result {
   text-align: center;
   border: none;
 }
 
-#results .blockquote-footer {
+.result .text, .result .translated {
+  font-size: 1.25em;
+}
+
+.result .details {
+  font-style: italic;
+  color: #9c9c9c;
   margin-top: 1rem;
 }
 
-#results .translated p {
+.result .translated {
   font-style: italic;
-  color: #333333;
+  color: #3f3f3f;
 }
 
-#results .fa-headphones {
+.result .fa-headphones {
   color: #007bff;
-  margin-right: 5px;
+  margin: 0 5px;
 }
 
-#results .fa-trash-alt {
+.result .fa-trash-alt {
   color: #dc3545;
-  margin-right: 5px;
+  margin: 0 5px;
 }
 
 #loading_spinner {
   display: none;
   color: #c3c3c3;
   text-align: center;
-  font-size: 2.5rem;
   padding: 1em .5em;
 }
 
@@ -95,4 +88,12 @@ i.translated {
 
 audio {
   margin: 0 auto;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+#language_selector {
+  text-align: center;
 }
