@@ -43,7 +43,7 @@ window.addEventListener('beforeunload', shutdownReceiver);
 
 // forked from https://github.com/mdn/web-dictaphone
 function init_streamer(){
-  window.remote_host = 'http://api.speechtranslator.ga';
+  window.remote_host = 'http://api.speechtranslator.net';
 
   // set up basic variables for app
 
