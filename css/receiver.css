@@ -68,6 +68,18 @@ header .heading {
   margin-right: 5px;
 }
 
+#loading_spinner {
+  display: none;
+  color: #c3c3c3;
+  text-align: center;
+  font-size: 2.5rem;
+  padding: 1em .5em;
+}
+
+#loading_spinner.loading {
+  display: block;
+}
+
 i.translated {
   display: block;
 }

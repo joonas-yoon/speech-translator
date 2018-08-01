@@ -54,8 +54,11 @@ function init_streamer(){
   var mainSection = document.querySelector('.main-controls');
   var audioLive = document.getElementById('player');
   var resultContainer = document.getElementById('results');
+  var loadingSpinner = document.getElementById('loading_spinner');
 
-  var random_id = Math.random().toString(36).substring(2, 12);
+  var random_id = get_random_hash();
+  var timer = null;
+  var enable = false;
 
   // audio player setup
 
@@ -87,6 +90,8 @@ function init_streamer(){
       visualize(stream);
 
       btn_record.onclick = function() {
+        if (!enable) return;
+
         mediaRecorder.start();
         console.log(mediaRecorder.state);
         console.log("recorder started");
@@ -106,6 +111,10 @@ function init_streamer(){
 
         btn_stop.disabled = true;
         btn_record.disabled = false;
+      }
+
+      mediaRecorder.onstart = function(e) {
+        loadingSpinner.classList.add('loading');
       }
 
       mediaRecorder.onstop = function(e) {
@@ -156,6 +165,20 @@ function init_streamer(){
 
       mediaRecorder.ondataavailable = function(e) {
         chunks.push(e.data);
+      }
+
+      mainButton.onclick = function(e) {
+        if(this.classList.contains('start')){
+          enable = true;
+          this.classList.add('stop');
+          this.classList.remove('start');
+          timer = do_cycling();
+        } else {
+          enable = false;
+          this.classList.remove('stop');
+          this.classList.add('start');
+          clearTimeout(timer);
+        }
       }
     }
 
@@ -221,6 +244,7 @@ function init_streamer(){
     }
 
     scrollDownTo(resultContainer);
+    loadingSpinner.classList.remove('loading');
   }
 
   function request_translate(output, text){
@@ -305,16 +329,20 @@ function init_streamer(){
     return random_id + "-" + (new Date().getTime());
   }
 
-  (function do_cycling(){
+  function get_random_hash(){
+    return Math.random().toString(36).substring(2, 12);
+  }
+
+  function do_cycling(){
     if(!!btn_stop.disabled){
       btn_record.click();
-      setTimeout(do_cycling, 10 * 1000);
+      return setTimeout(do_cycling, 10 * 1000);
     }
     else {
       btn_stop.click();
-      setTimeout(do_cycling, 10);
+      return setTimeout(do_cycling, 10);
     }
-  })();
+  }
 
   window.onresize = function() {
     canvas.width = mainSection.offsetWidth;
