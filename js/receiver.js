@@ -94,7 +94,7 @@ function init_streamer(){
 
         mediaRecorder.start();
         console.log(mediaRecorder.state);
-        console.log("recorder started");
+        // console.log("recorder started");
         btn_record.style.background = "red";
 
         btn_stop.disabled = false;
@@ -104,7 +104,7 @@ function init_streamer(){
       btn_stop.onclick = function() {
         mediaRecorder.stop();
         console.log(mediaRecorder.state);
-        console.log("recorder stopped");
+        // console.log("recorder stopped");
         btn_record.style.background = "";
         btn_record.style.color = "";
         // mediaRecorder.requestData();
@@ -118,12 +118,9 @@ function init_streamer(){
       }
 
       mediaRecorder.onstop = function(e) {
-        console.log("data available after MediaRecorder.stop() called.");
+        // console.log("data available after MediaRecorder.stop() called.");
 
         var clipContainer = document.createElement('blockquote');
-        var clipText = document.createElement('p');
-        var clipTranslated = document.createElement('div');
-        var clipDetail = document.createElement('footer');
         var audio = document.createElement('audio');
         var playButton = document.createElement('i');
         var deleteButton = document.createElement('i');
@@ -132,17 +129,11 @@ function init_streamer(){
         audio.style.display = 'none';
 
         clipContainer.className = 'ui vertical result segment';
-        clipText.className = 'text';
-        clipTranslated.className = 'translated';
-        clipDetail.className = 'details';
         audio.setAttribute('controls', '');
         playButton.className = 'fas fa-headphones';
         deleteButton.className = 'fas fa-trash-alt';
 
         clipContainer.appendChild(audio);
-        clipContainer.appendChild(clipText);
-        clipContainer.appendChild(clipTranslated);
-        clipContainer.appendChild(clipDetail);
         clipContainer.appendChild(playButton);
         clipContainer.appendChild(deleteButton);
         $(resultContainer).prepend(clipContainer);
@@ -152,7 +143,7 @@ function init_streamer(){
         chunks = [];
         var audioURL = window.URL.createObjectURL(blob);
         audio.src = audioURL;
-        console.log("recorder stopped");
+        // console.log("recorder stopped");
 
         playButton.addEventListener('click', function(e){
           audio.style.display = 'block';
@@ -219,38 +210,47 @@ function init_streamer(){
 
   function post_recognize(container, response){
     if (!response.hasOwnProperty('results') || !response.results.length) {
-
       container.remove();
-
     } else {
-
-      var results = response.results;
       container.style.display = 'block';
-      for (var i in results){
-        if (results.hasOwnProperty(i)) {
-          var alternatives = results[i].alternatives || Array();
-          var average_conf = 0.0;
-          console.log('[alternatives]', alternatives);
-          for (var i=0; i < alternatives.length; i++){
-            var text = alternatives[i].transcript;
-            if (!text) continue;
-
-            var confidence = alternatives[i].confidence || 0.0;
-            var quote = container.querySelector('.text');
-            quote.innerHTML += (i > 0 ? '<br>' : '') + text;
-
-            var detail = container.querySelector('.details');
-            average_conf = (average_conf * i + confidence) / (i + 1.);
-            detail.innerText = 'Confidence: ' + (Math.round(average_conf * 100 * 100)/100) + '%';
-
-            var translated = container.querySelector('.translated');
-            request_translate(translated, text);
-          }
+      response.results.forEach(function(result, idx){
+        var alternatives = result.alternatives || [];
+        console.log('[alternatives]', alternatives);
+        for(var i=0; i<alternatives.length; i++){
+          append_result(container, alternatives[i]);
         }
-      }
+      });
     }
 
     loadingSpinner.classList.remove('loading');
+  }
+
+  function append_result(container, alternative){
+    var text = alternative.transcript || '';
+    var confidence = alternative.confidence || 0.0;
+
+    if (!text) return;
+
+    var res = document.createElement('div');
+    var contText = document.createElement('p');
+    var contTranslated = document.createElement('p');
+    var contDetail = document.createElement('p');
+
+    res.className = 'phrase';
+    res.id = get_random_hash();
+    contText.className = 'text';
+    contTranslated.className = 'translated';
+    contDetail.className = 'detail';
+
+    contText.innerText = text;
+    contDetail.innerText = 'Confidence: ' + (Math.round(confidence * 100 * 100)/100) + '%';
+
+    res.appendChild(contText);
+    res.appendChild(contTranslated);
+    res.appendChild(contDetail);
+    container.appendChild(res);
+
+    request_translate(contTranslated, text);
   }
 
   function request_translate(output, text){
@@ -266,8 +266,8 @@ function init_streamer(){
       processData: false,
       contentType: 'application/json'
     }).done(function(response){
-      console.log('translated', response[0], response[1].data);
-      output.innerHTML += '<p>' + response[0] + '</p>';
+      console.log('[translated]', response[0], response[1].data);
+      output.innerText = response[0];
     });
   }
 

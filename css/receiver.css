@@ -47,21 +47,6 @@ header .heading {
   border: none;
 }
 
-.result .text, .result .translated {
-  font-size: 1.25em;
-}
-
-.result .details {
-  font-style: italic;
-  color: #9c9c9c;
-  margin-top: 1rem;
-}
-
-.result .translated {
-  font-style: italic;
-  color: #3f3f3f;
-}
-
 .result .fa-headphones {
   color: #007bff;
   margin: 0 5px;
@@ -70,6 +55,29 @@ header .heading {
 .result .fa-trash-alt {
   color: #dc3545;
   margin: 0 5px;
+}
+
+.phrase {
+  margin-top: 1rem;
+  font-size: 1.25em;
+}
+.phrase p {
+  margin-bottom: 2px;
+}
+.phrase .text {
+  text-align: left;
+}
+.phrase .translated {
+  text-align: right;
+  font-style: italic;
+  color: #3f3f3f;
+}
+.phrase .detail {
+  font-size: 0.75em;
+  font-style: italic;
+  color: #9c9c9c;
+  margin-top: 4px;
+  text-align: right;
 }
 
 #loading_spinner {
