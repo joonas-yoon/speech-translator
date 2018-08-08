@@ -110,3 +110,14 @@ audio {
 .configuration.message {
   display: none;
 }
+
+.help>.label {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: 5px !important;
+  margin-top: 5px !important;
+}
+.help>.label>i.icon {
+  margin: 0;
+}

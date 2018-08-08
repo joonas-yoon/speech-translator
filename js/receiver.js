@@ -388,5 +388,9 @@ function init_streamer(){
     $('.ui.message .close').on('click', function() {
       $(this).closest('.message').transition('fade');
     });
+
+    $(".help .label").on('click', function() {
+      $('.help.modal').modal('show');
+    });
   });
 }
