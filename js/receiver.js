@@ -43,7 +43,7 @@ window.addEventListener('beforeunload', shutdownReceiver);
 
 // forked from https://github.com/mdn/web-dictaphone
 function init_streamer(){
-  window.remote_host = 'http://api.speechtranslator.net';
+  window.remote_host = 'http://speechtranslator.net/api';
 
   // set up basic variables for app
 
@@ -200,7 +200,7 @@ function init_streamer(){
     fileData.append('langcode', langcode);
 
     $.ajax({
-      url: window.remote_host + '/collect',
+      url: window.remote_host + '/app/collect',
       type: 'post',
       data: fileData,
       processData: false,
@@ -259,7 +259,7 @@ function init_streamer(){
     console.log(`[text]: ${text}`);
 
     $.ajax({
-      url: window.remote_host + '/translate',
+      url: window.remote_host + '/app/translate',
       type: 'post',
       data: JSON.stringify({
         dst_lang: $("#dst_lang").dropdown('get value'),
@@ -356,7 +356,7 @@ function init_streamer(){
 
     function init_languages(dropdown, default_lang){
       $.ajax({
-        url: window.remote_host + '/translate/supports',
+        url: window.remote_host + '/app/translate/supports',
         type: 'get'
       }).done(function(response){
         var langs = [];
