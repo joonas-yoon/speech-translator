@@ -34,6 +34,7 @@ function init() {
   }
 
   init_streamer();
+  check_version();
 }
 
 window.addEventListener('load', init);
@@ -396,5 +397,38 @@ function init_streamer(){
     $(".help .label").on('click', function() {
       $('.help.modal').modal('show');
     });
+  });
+}
+
+function check_version(){
+  var manifest = chrome.runtime.getManifest();
+  console.log('current version:', manifest.version);
+
+  $.ajax({
+    url: window.remote_host + '/versions/latest',
+    type: 'get',
+    dataType: 'json'
+  }).done(function(response){
+    if(!response || !response.identifier) return;
+    if(response.identifier != manifest.version){
+      var modal = $("#modal_version");
+      var newRelease = modal.find('.release');
+      var oldRelease = modal.find('.oldrelease');
+      var updateNote = modal.find('.notes');
+
+      var downloadLink = window.remote_host + '/download/' + response.identifier;
+
+      newRelease.attr('href', downloadLink);
+      newRelease.text(response.identifier);
+      oldRelease.text(manifest.version);
+      updateNote.html(response.description || 'No description.');
+
+      modal.modal({
+        onApprove: function(el){
+          $.ajax({url: downloadLink, error: function(err){ alert('Failed to download.'); }});
+          return false;
+        }
+      }).modal('show');
+    }
   });
 }
