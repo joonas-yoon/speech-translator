@@ -17,6 +17,11 @@ header .heading {
   line-height: 1.2;
 }
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 #btn_main.start > .label-stop {
   display: none;
 }

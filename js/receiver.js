@@ -127,10 +127,10 @@ function init_streamer(){
         var deleteButton = document.createElement('i');
 
         clipContainer.style.display = 'none';
-        audio.style.display = 'none';
 
         clipContainer.className = 'ui stacked result segment';
         audio.setAttribute('controls', '');
+        audio.className = 'hidden';
         buttonGroup.className = 'actions';
         playButton.className = 'action play fas fa-headphones';
         deleteButton.className = 'action delete fas fa-trash-alt';
@@ -149,7 +149,7 @@ function init_streamer(){
         // console.log("recorder stopped");
 
         playButton.addEventListener('click', function(e){
-          audio.style.display = 'block';
+          $(audio).toggleClass('hidden');
         });
 
         deleteButton.addEventListener('click', function(e){
