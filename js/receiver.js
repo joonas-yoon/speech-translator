@@ -122,20 +122,23 @@ function init_streamer(){
 
         var clipContainer = document.createElement('blockquote');
         var audio = document.createElement('audio');
+        var buttonGroup = document.createElement('div');
         var playButton = document.createElement('i');
         var deleteButton = document.createElement('i');
 
         clipContainer.style.display = 'none';
         audio.style.display = 'none';
 
-        clipContainer.className = 'ui vertical result segment';
+        clipContainer.className = 'ui stacked result segment';
         audio.setAttribute('controls', '');
-        playButton.className = 'fas fa-headphones';
-        deleteButton.className = 'fas fa-trash-alt';
+        buttonGroup.className = 'actions';
+        playButton.className = 'action play fas fa-headphones';
+        deleteButton.className = 'action delete fas fa-trash-alt';
 
         clipContainer.appendChild(audio);
-        clipContainer.appendChild(playButton);
-        clipContainer.appendChild(deleteButton);
+        buttonGroup.appendChild(playButton);
+        buttonGroup.appendChild(deleteButton);
+        clipContainer.appendChild(buttonGroup);
         $(resultContainer).prepend(clipContainer);
 
         audio.controls = true;
@@ -151,7 +154,8 @@ function init_streamer(){
 
         deleteButton.addEventListener('click', function(e){
           evtTgt = e.target;
-          evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+          var container = evtTgt.parentNode.parentNode;
+          container.parentNode.removeChild(container);
         });
 
         send_audio(clipContainer, blob);

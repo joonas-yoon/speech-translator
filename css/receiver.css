@@ -47,14 +47,20 @@ header .heading {
   border: none;
 }
 
-.result .fa-headphones {
-  color: #007bff;
-  margin: 0 5px;
+.result .actions {
+  float: right;
 }
 
-.result .fa-trash-alt {
+.result .actions>.action{
+  margin-right: 5px;
+}
+
+.result .play {
+  color: #007bff;
+}
+
+.result .delete {
   color: #dc3545;
-  margin: 0 5px;
 }
 
 .phrase {
@@ -66,17 +72,19 @@ header .heading {
 }
 .phrase .text {
   text-align: left;
+  font-size: 0.75em;
+  color: #808080;
 }
 .phrase .translated {
-  text-align: right;
+  font-size: 1.375em;
+  text-align: left;
   font-style: italic;
   color: #3f3f3f;
 }
 .phrase .detail {
-  font-size: 0.75em;
+  font-size: 0.6em;
   font-style: italic;
   color: #9c9c9c;
-  margin-top: 4px;
   text-align: right;
 }
 
