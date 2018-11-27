@@ -415,17 +415,18 @@ function check_version(){
       var newRelease = modal.find('.release');
       var oldRelease = modal.find('.oldrelease');
       var updateNote = modal.find('.notes');
+      var downloadButton = modal.find('.download.button');
 
-      var downloadLink = window.remote_host + '/download/' + response.identifier;
+      var downloadLink = window.remote_host + '/versions/download/' + response.identifier;
 
       newRelease.attr('href', downloadLink);
+      downloadButton.attr('href', downloadLink);
       newRelease.text(response.identifier);
       oldRelease.text(manifest.version);
       updateNote.html(response.description || 'No description.');
 
       modal.modal({
         onApprove: function(el){
-          $.ajax({url: downloadLink, error: function(err){ alert('Failed to download.'); }});
           return false;
         }
       }).modal('show');
