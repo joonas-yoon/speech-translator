@@ -115,7 +115,7 @@ function init_streamer(){
       }
 
       mediaRecorder.onstart = function(e) {
-        loadingSpinner.classList.add('loading');
+        loadingSpinner.style.display = 'block';
       }
 
       mediaRecorder.onstop = function(e) {
@@ -227,9 +227,8 @@ function init_streamer(){
           append_result(container, alternatives[i]);
         }
       });
+      loadingSpinner.style.display = 'none';
     }
-
-    loadingSpinner.classList.remove('loading');
   }
 
   function append_result(container, alternative){
@@ -397,6 +396,18 @@ function init_streamer(){
     $(".help .label").on('click', function() {
       $('.help.modal').modal('show');
     });
+
+    $(loadingSpinner).progress({
+      loading: true
+    });
+
+    setInterval(function(){
+      var el = $(loadingSpinner).find('.bar');
+      var color = el.data('color') || 0;
+      var colors = ['#d01919', '#fbbd08', '#21ba45', '#2185d0', '#767676'];
+      el.css('background-color', colors[color]);
+      el.data('color', (color + 1) % colors.length);
+    }, 1000);
   });
 }
 

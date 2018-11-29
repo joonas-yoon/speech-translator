@@ -95,13 +95,7 @@ header .heading {
 
 #loading_spinner {
   display: none;
-  color: #c3c3c3;
-  text-align: center;
-  padding: 1em .5em;
-}
-
-#loading_spinner.loading {
-  display: block;
+  margin: 1em;
 }
 
 i.translated {
