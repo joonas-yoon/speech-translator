@@ -39,7 +39,6 @@ header .heading {
   padding: 0 1em;
   text-align: center !important;
 }
-
 .main-controls .visualizer {
   display: block;
   margin-top: 1em;
@@ -49,26 +48,22 @@ header .heading {
 #result_view_types {
   margin: 0 auto;
 }
-
 .result {
   text-align: center;
   border: none;
+  margin-bottom: 1em;
 }
-
-.result .actions {
-  float: right;
+.result .revert {
+  display: none;
+  font-size: small;
+  text-align: center;
 }
-
+.result .revert .btn {
+  color: #999;
+  cursor: pointer;
+}
 .result .actions>.action{
   margin-right: 5px;
-}
-
-.result .play {
-  color: #007bff;
-}
-
-.result .delete {
-  color: #dc3545;
 }
 
 .phrase {
@@ -94,11 +89,18 @@ header .heading {
 .result.type_c .phrase .text {
   display: none;
 }
+.phrase .detail>a.btn {
+  cursor: pointer;
+  color: #a9a9a9;
+}
 .phrase .detail {
-  font-size: 0.6em;
   font-style: italic;
   color: #9c9c9c;
   text-align: right;
+}
+.phrase .detail .info {
+  display: none;
+  font-size: small;
 }
 
 #loading_spinner {

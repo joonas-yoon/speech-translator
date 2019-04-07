@@ -121,26 +121,39 @@ function init_streamer(){
       mediaRecorder.onstop = function(e) {
         // console.log("data available after MediaRecorder.stop() called.");
 
-        var clipContainer = document.createElement('blockquote');
+        var container = document.createElement('div');
+        var clipContainer = document.createElement('div');
+        var revertContainer = document.createElement('div');
         var audio = document.createElement('audio');
         var buttonGroup = document.createElement('div');
-        var playButton = document.createElement('i');
-        var deleteButton = document.createElement('i');
+        var revertButton = document.createElement('a');
+        var playButton = document.createElement('a');
+        var deleteButton = document.createElement('a');
 
-        clipContainer.style.display = 'none';
+        container.style.display = 'none';
 
-        clipContainer.className = 'ui stacked result segment';
+        container.className = 'result';
+        clipContainer.className = 'ui stacked segment';
+        revertContainer.className = 'revert';
         audio.setAttribute('controls', '');
         audio.className = 'hidden';
         buttonGroup.className = 'actions';
-        playButton.className = 'action play fas fa-headphones';
-        deleteButton.className = 'action delete fas fa-trash-alt';
+        playButton.className = 'ui action blue play small label';
+        deleteButton.className = 'ui action red delete small label';
+        revertButton.className = 'btn';
+
+        playButton.innerHTML = '<i class="play fas fa-headphones"></i> &nbsp; 다시 듣기';
+        deleteButton.innerHTML = '<i class="delete fas fa-trash-alt"></i> &nbsp; 기록 지우기';
+        revertButton.innerHTML = '<i class="fas fa-undo"></i> &nbsp; 실행 취소';
 
         clipContainer.appendChild(audio);
         buttonGroup.appendChild(playButton);
         buttonGroup.appendChild(deleteButton);
         clipContainer.appendChild(buttonGroup);
-        $(resultContainer).prepend(clipContainer);
+        revertContainer.appendChild(revertButton);
+        container.appendChild(clipContainer);
+        container.appendChild(revertContainer);
+        $(resultContainer).prepend(container);
 
         audio.controls = true;
         var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
@@ -154,9 +167,20 @@ function init_streamer(){
         });
 
         deleteButton.addEventListener('click', function(e){
-          evtTgt = e.target;
+          var evtTgt = e.target;
           var container = evtTgt.parentNode.parentNode;
-          container.parentNode.removeChild(container);
+          $(container).transition('fade left');
+          $(container.parentNode).find('.revert').transition('fade left');
+        });
+
+        revertButton.addEventListener('click', function(e){
+          var evtTgt = e.target;
+          var container = evtTgt.parentNode;
+          console.log(container);
+          console.log(container.parentNode);
+          console.log(container.parentNode.parentNode);
+          $(container).transition('fade left');
+          $(container.parentNode).find('.segment').transition('fade left');
         });
 
         send_audio(clipContainer, blob);
@@ -222,7 +246,7 @@ function init_streamer(){
     } else {
       var view_type = $("input[name=result_view_type]").val() || 'b';
       container.classList.add('type_' + view_type);
-      container.style.display = 'block';
+      container.parentNode.style.display = 'block';
       response.results.forEach(function(result, idx){
         var alternatives = result.alternatives || [];
         console.log('[alternatives]', alternatives);
@@ -245,21 +269,39 @@ function init_streamer(){
     var res = document.createElement('div');
     var contText = document.createElement('p');
     var contTranslated = document.createElement('p');
-    var contDetail = document.createElement('p');
+    var contDetail = document.createElement('div');
+    var contDetailBtn = document.createElement('a');
+    var contDetailText = document.createElement('div');
 
     res.className = 'phrase';
     res.id = get_random_hash();
     contText.className = 'text';
     contTranslated.className = 'translated';
     contDetail.className = 'detail';
+    contDetailBtn.className = 'btn';
+    contDetailText.className = 'info';
 
     contText.innerText = text;
-    contDetail.innerText = 'Confidence: ' + (Math.round(confidence * 100 * 100)/100) + '%';
+    contDetailBtn.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
+    contDetailText.innerHTML = [
+      '인식률: ' + (Math.round(confidence * 100 * 100)/100) + '%',
+      get_yyyymmddhis()
+    ].join('<br>');
 
+    contDetail.appendChild(contDetailBtn);
+    contDetail.appendChild(contDetailText);
     res.appendChild(contText);
     res.appendChild(contTranslated);
     res.appendChild(contDetail);
     container.appendChild(res);
+
+    contDetailBtn.addEventListener('click', function(e){
+      var evtTgt = e.target;
+      var btn = evtTgt.parentNode;
+      var info = btn.parentNode.getElementsByClassName('info')[0];
+      btn.style.display = 'none';
+      info.style.display = 'block';
+    });
 
     if (view_type != 'a') {
       request_translate(contTranslated, text);
@@ -436,6 +478,18 @@ function init_streamer(){
       el.data('color', (color + 1) % colors.length);
     }, 1000);
   });
+}
+
+function get_yyyymmddhis(){
+  var d = new Date();
+  function zf(str){
+    return ("00" + str).slice(-2);
+  }
+  return [
+    d.getFullYear(), zf(d.getMonth()+1), zf(d.getDate())
+  ].join('/')+' '+[
+    zf(d.getHours()), zf(d.getMinutes()), zf(d.getSeconds())
+  ].join(':');
 }
 
 function ping(){
