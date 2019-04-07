@@ -32,7 +32,10 @@ function init() {
       shutdownReceiver();
     });
   }
+  
+  window.remote_host = 'http://speechtranslator.net/api';
 
+  ping();
   init_streamer();
   check_version();
 }
@@ -44,8 +47,6 @@ window.addEventListener('beforeunload', shutdownReceiver);
 
 // forked from https://github.com/mdn/web-dictaphone
 function init_streamer(){
-  window.remote_host = 'http://speechtranslator.net/api';
-
   // set up basic variables for app
 
   var mainButton = document.getElementById('btn_main');
@@ -260,6 +261,8 @@ function init_streamer(){
   }
 
   function request_translate(output, text){
+    if(!window.appRunning) return;
+
     console.log(`[text]: ${text}`);
 
     $.ajax({
@@ -339,6 +342,8 @@ function init_streamer(){
   }
 
   function do_cycling(){
+    if(!window.appRunning) return;
+
     if(!!btn_stop.disabled){
       btn_record.click();
       return setTimeout(do_cycling, 10 * 1000);
@@ -443,4 +448,31 @@ function check_version(){
       }).modal('show');
     }
   });
+}
+
+function ping(){
+  $.ajax({
+    url: window.remote_host + '/ping',
+    type: 'get',
+    error: function(xhr, status, error){
+      var modal = $("#modal_notice");
+      modal.modal('show');
+      active_service(false);
+      window.ping = false;
+    },
+    success: function(response){
+      active_service(true);
+      window.ping = true;
+    }
+  });
+
+  setTimeout(ping, 10 * 1000);
+}
+
+function active_service(appRunning){
+  window.appRunning = appRunning || false;
+  var mainButton = document.getElementById('btn_main');
+  var mainAltButton = document.getElementById('btn_main_disabled');
+  mainButton.style.display = appRunning ? 'block' : 'none';
+  mainAltButton.style.display = appRunning ? 'none' : 'block';
 }

@@ -22,10 +22,9 @@ header .heading {
   visibility: hidden !important;
 }
 
-#btn_main.start > .label-stop {
-  display: none;
-}
-#btn_main.stop > .label-play {
+#btn_main.start > .label-stop,
+#btn_main.stop > .label-play,
+#btn_main_disabled {
   display: none;
 }
 

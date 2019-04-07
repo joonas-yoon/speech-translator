@@ -19,7 +19,8 @@
       <img src="/logo.png">
     </div>
     <div class="description" style="min-width: fit-content;">
-      <div class="ui header">What's new?</div><p>Hello, This is Wagon!</p>
+      <div class="ui header">What's new?</div>
+        <p>Hello, This is Wagon!</p>
         <p>We releases <a class="release">new version</a>, but you're using <span class="oldrelease">old version</span>.</p>
         <p class="notes"></p>
         <p>Download it if you want to use our service.</p>
@@ -35,6 +36,26 @@
     </a>
   </div>
 </div>
+
+<div class="ui tiny modal" id="modal_notice">
+  <div class="header">
+    Oops! <!-- Something wrong :( -->
+  </div>
+  <div class="image content">
+    <div class="description" style="min-width: fit-content;">
+      <div class="ui header">이런! 뭔가 잘못된 거 같아요 :(</div>
+        <p>서버와의 연결에 실패했습니다.<br>인터넷 연결 상태를 확인해주세요.</p>
+        <p>혹은 서버가 점검 중일 수 있습니다. 잠시 후 다시 시도해주세요.</p>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui positive right labeled icon download button">
+      알겠습니다.
+      <i class="checkmark icon"></i>
+    </a>
+  </div>
+</div>
+
 
 <div class="ui container">
 
@@ -95,7 +116,7 @@
 
         <h3 class="ui header">1.1</h3>
         <ul>
-          <li><b>외부의 잡음 없이</b> 크롬 탭의 소리만 인식하는 <b>실시간 번역</b>을 경험할 수 있습니다!</li>
+          <li><b>외부의 잡음 없이</b> 브라우저 탭의 소리만 인식하는 <b>실시간 번역</b>을 경험할 수 있습니다!</li>
         </ul>
       </div>
     </div>
@@ -135,6 +156,9 @@
         </div>
       </div>
       <div class="column">
+        <button id="btn_main_disabled" class="ui button fluid disabled">
+          <i class="fas fa-fw fa-exclamation-triangle"></i> Not available
+        </button>
         <button id="btn_main" class="ui primary button fluid start">
           <span class="label-play">
             <i class="fas fa-fw fa-play"></i> Start
