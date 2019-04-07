@@ -46,6 +46,10 @@ header .heading {
   max-width: 100%;
 }
 
+#result_view_types {
+  margin: 0 auto;
+}
+
 .result {
   text-align: center;
   border: none;
@@ -79,11 +83,16 @@ header .heading {
   font-size: 0.75em;
   color: #808080;
 }
+.result.type_a .phrase .text,
 .phrase .translated {
   font-size: 1.375em;
   text-align: left;
   font-style: italic;
   color: #3f3f3f;
+}
+.result.type_a .phrase .translated,
+.result.type_c .phrase .text {
+  display: none;
 }
 .phrase .detail {
   font-size: 0.6em;

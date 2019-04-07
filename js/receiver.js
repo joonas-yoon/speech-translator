@@ -115,7 +115,7 @@ function init_streamer(){
       }
 
       mediaRecorder.onstart = function(e) {
-        loadingSpinner.style.display = 'block';
+        active_loader(true);
       }
 
       mediaRecorder.onstop = function(e) {
@@ -218,24 +218,29 @@ function init_streamer(){
   function post_recognize(container, response){
     if (!response.hasOwnProperty('results') || !response.results.length) {
       container.remove();
+      active_loader(false);
     } else {
+      var view_type = $("input[name=result_view_type]").val() || 'b';
+      container.classList.add('type_' + view_type);
       container.style.display = 'block';
       response.results.forEach(function(result, idx){
         var alternatives = result.alternatives || [];
         console.log('[alternatives]', alternatives);
         for(var i=0; i<alternatives.length; i++){
-          append_result(container, alternatives[i]);
+          append_result(container, alternatives[i], view_type);
         }
       });
-      loadingSpinner.style.display = 'none';
     }
   }
 
-  function append_result(container, alternative){
+  function append_result(container, alternative, view_type){
     var text = alternative.transcript || '';
     var confidence = alternative.confidence || 0.0;
 
-    if (!text) return;
+    if (!text) {
+      active_loader(false);
+      return;
+    }
 
     var res = document.createElement('div');
     var contText = document.createElement('p');
@@ -256,11 +261,18 @@ function init_streamer(){
     res.appendChild(contDetail);
     container.appendChild(res);
 
-    request_translate(contTranslated, text);
+    if (view_type != 'a') {
+      request_translate(contTranslated, text);
+    } else {
+      active_loader(false);
+    }
   }
 
   function request_translate(output, text){
-    if(!window.appRunning) return;
+    if (!window.appRunning) {
+      active_loader(false);
+      return;
+    }
 
     console.log(`[text]: ${text}`);
 
@@ -276,6 +288,7 @@ function init_streamer(){
     }).done(function(response){
       console.log('[translated]', response[0], response[1].data);
       output.innerText = response[0];
+      active_loader(false);
     });
   }
 
@@ -330,6 +343,10 @@ function init_streamer(){
       canvasCtx.stroke();
 
     }
+  }
+  
+  function active_loader(val){
+    loadingSpinner.style.display = val ? 'block' : 'none';
   }
 
   function get_current_clipname(){
@@ -400,6 +417,12 @@ function init_streamer(){
     $(".help .label").on('click', function() {
       $('.help.modal').modal('show');
     });
+
+    $(".result_view_type").checkbox({
+      onChange: function(){
+        $("input[name=result_view_type]").val(this.value);
+      }
+    })
 
     $(loadingSpinner).progress({
       loading: true

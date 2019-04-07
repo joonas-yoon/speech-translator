@@ -145,6 +145,33 @@
     </div>
   </div>
 
+  <div class="ui grid">
+    <div class="ui form" id="result_view_types">
+      <input type="hidden" name="result_view_type" value="b" />
+      <div class="inline fields">
+        <label>결과 표시 형식</label>
+        <div class="field">
+          <div class="ui radio result_view_type checkbox">
+            <input type="radio" name="result_type" value="a">
+            <label>원문(음성인식)만</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio result_view_type checkbox">
+            <input type="radio" name="result_type" value="b" checked="checked">
+            <label>원문+번역문</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio result_view_type checkbox">
+            <input type="radio" name="result_type" value="c">
+            <label>번역문만</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="ui positive configuration message">
     <i class="close icon"></i>
     <div class="header">Changed configuration</div>
