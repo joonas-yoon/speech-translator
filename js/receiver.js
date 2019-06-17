@@ -37,6 +37,9 @@ function init() {
 
   ping();
   init_streamer();
+
+  // will be expired on 2019-07-15
+  $("#modal_endup").modal('show');
 }
 
 window.addEventListener('load', init);
