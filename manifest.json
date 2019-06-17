@@ -1,7 +1,7 @@
 {
-  "name": "Speech Translator",
-  "description": "Detect audio from your current tab and translate it.",
-  "version": "1.2.3",
+  "name": "음성 번역기",
+  "description": "Speech Translator - 브라우저의 소리를 듣고 번역해드립니다.",
+  "version": "1.2.4",
   "manifest_version": 2,
   "background": {
     "scripts": [
