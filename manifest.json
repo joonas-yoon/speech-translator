@@ -1,7 +1,7 @@
 {
   "name": "Speech Translator",
   "description": "Detect audio from your current tab and translate it.",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "manifest_version": 2,
   "background": {
     "scripts": [
