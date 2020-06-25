@@ -1,21 +1,38 @@
 {
   "name": "Speech Translator",
   "description": "Detect audio from your current tab and translate it.",
-  "version": "1.2.4",
+  "version": "2.0.0.0",
   "manifest_version": 2,
   "background": {
     "scripts": [
-      "eventPage.js"
+      "js/background.js"
     ],
     "persistent": false
   },
   "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "icon.png",
+    "default_title": "Translate!"
   },
-  "permissions": [
-    "tabs",
-    "tabCapture",
-    "http://*/*"
+  "content_scripts": [{
+      "matches": [
+        "<all_urls>"
+      ],
+      "all_frames": true,
+      "css": [
+        "css/style.css"
+      ],
+      "js": [
+        "js/jquery-3.3.1.min.js",
+        "js/inject.js",
+        "js/receiver.js"
+      ]
+    }
   ],
-  "content_security_policy": "script-src 'self' https://use.fontawesome.com https://cdn.jsdelivr.net blob: filesystem: chrome-extension-resource:; object-src 'self';"
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "tabCapture"
+  ],
+  "web_accessible_resources": ["style.css"]
 }
