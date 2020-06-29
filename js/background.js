@@ -1,3 +1,13 @@
+const SERVER_HOST = 'http://localhost:3000/api';
+
+function get_random_hash(){
+  return Math.random().toString(36).substring(2, 12);
+}
+
+function get_current_clipname(){
+  return get_random_hash() + "-" + (new Date().getTime());
+}
+
 class translator {
   constructor(tab, stream) {
     let self = this;
@@ -73,31 +83,47 @@ class translator {
   stopRecord() {
     console.log('state', this.state);
     this.mediaRecorder.stop();
-    console.log(this.audio);
-    this.audio.pause();
   }
 
   play() {
     let audio = document.createElement('audio');
-    audio.controls = true;
     let blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
-    this.chunks = [];
-    let audioURL = window.URL.createObjectURL(blob);
-    console.log('chunk', this.chunks);
-    console.log('blob', blob);
-    console.log('audioURL', audioURL);
-    audio.src = audioURL;
-    console.log(audio);
-    audio.play();
-
-    this.send(blob);
+    if (this.chunks.length) {
+      this.chunks = [];
+      audio.src = window.URL.createObjectURL(blob);
+      console.log(audio);
+      // audio.play();
+      this.requestRecognize(blob);
+    }
   }
   
-  send(audio) {
-    var fileData = new FormData();
+  requestRecognize(audio) {
+    let self = this;
+    let fileData = new FormData();
+    let clipId = get_current_clipname();
     fileData.append('audio', audio);
-    fileData.append('filename', 'random_text');
-    console.log(fileData);
+    fileData.append('filename', clipId);
+    
+    let langcode = 'en-US';
+    fileData.append('langcode', langcode);
+
+    $.ajax({
+      url: SERVER_HOST + '/app/collect',
+      type: 'post',
+      data: fileData,
+      processData: false,
+      contentType: false
+    }).done(function(response){
+      chrome.tabs.sendMessage(self.tab.id, {
+        method: 'recognize',
+        results: response.results || []
+      });
+      // requestTranslate();
+    });
+  }
+
+  requestTranslate(clipId, text) {
+
   }
 };
 

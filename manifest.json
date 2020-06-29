@@ -5,6 +5,7 @@
   "manifest_version": 2,
   "background": {
     "scripts": [
+      "js/jquery-3.3.1.min.js",
       "js/background.js"
     ],
     "persistent": false

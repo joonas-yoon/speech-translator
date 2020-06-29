@@ -1,25 +1,25 @@
 let viewer = document.getElementById('spchtrs-viewer');
 let threadContainer = viewer.querySelector('.threads');
 
-function addText(text){
+function wrapText(text){
+  let t = document.createElement('span');
+  t.classList.add('text-bg');
+  t.innerHTML = text;
+  return t;
+}
+
+function addTextItem(text, subtext){
   let item = document.createElement('div');
   item.classList.add('item');
 
-  function wrapText(text){
-    let t = document.createElement('span');
-    t.classList.add('text-bg');
-    t.innerHTML = text;
-    return t;
-  }
-
   let text_cont = document.createElement('div');
   text_cont.classList.add('text');
-  text_cont.appendChild(wrapText(text));
+  if (text) text_cont.appendChild(wrapText(text));
   item.appendChild(text_cont);
 
   let text_cont2 = document.createElement('div');
   text_cont2.classList.add('sub-text');
-  text_cont2.appendChild(wrapText('hello'));
+  if (subtext) text_cont2.appendChild(wrapText(subtext));
   item.appendChild(text_cont2);
 
   threadContainer.appendChild(item);
@@ -29,6 +29,36 @@ function addText(text){
   if (counts >= 5){
     threadContainer.removeChild(threadContainer.firstChild);
   }
+
+  return new Promise(function(resolve, reject) {
+    resolve(item, text, subtext);
+  });
+}
+
+function requestTranslate(item, text, subtext) {
+  let result = 'translated-text';
+  let resultText = item.querySelector('.text > span');
+  return new Promise(function(resolve, reject) {
+    setTimeout(function(){
+      resultText.innerText = result;
+    }, 2000);
+  });
+}
+
+function appendResult(results){
+  if (!results || !results.length) return;
+  results.forEach(function(result, idx){
+    let alternatives = result.alternatives || [];
+    console.log('[alternatives]', alternatives);
+    for(var i = 0; i < alternatives.length; i++){
+      let text = alternatives[i].transcript || '';
+      let confidence = alternatives[i].confidence || 0.0;
+      let confidenceHumanized = Math.round(confidence * 100 * 100) / 100;
+      addTextItem('&#8230;', text)
+        .then(requestTranslate);
+    }
+  });
+
 }
 
 // visualiser setup - create web audio api context and canvas
@@ -39,7 +69,7 @@ function visualize(percentage){
 }
 
 function hideViewer(){
-  // $(viewer).fadeOut();
+  $(viewer).fadeOut();
 }
 
 function showViewer(){
@@ -56,12 +86,13 @@ function showViewer(){
 
     if (msg.method === 'showViewer') {
       let str = Math.random().toString(36).substring(2);
-      addText(str);
       showViewer();
     } else if (msg.method === 'hideViewer') {
       hideViewer();
     } else if (msg.method === 'visualize') {
       visualize(msg.avgDecibel);
+    } else if (msg.method === 'recognize') {
+      appendResult(msg.results);
     }
   });
 })();
