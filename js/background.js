@@ -114,16 +114,44 @@ class translator {
       processData: false,
       contentType: false
     }).done(function(response){
-      chrome.tabs.sendMessage(self.tab.id, {
-        method: 'recognize',
-        results: response.results || []
-      });
-      // requestTranslate();
+      if (response && response.results) {
+        chrome.tabs.sendMessage(self.tab.id, {
+          method: 'recognize',
+          results: response.results || []
+        }, function(resp) {
+          self.requestTranslate(resp);
+        });
+      }
     });
   }
 
-  requestTranslate(clipId, text) {
-
+  requestTranslate(response) {
+    let self = this;
+    let itemId = response.itemId;
+    let text = response.text;
+    $.ajax({
+      url: SERVER_HOST + '/app/translate',
+      type: 'post',
+      data: JSON.stringify({
+        src_lang: 'en',
+        dst_lang: 'ko',
+        src_text: text
+      }),
+      processData: false,
+      contentType: 'application/json'
+    }).done(function(translatedResult){
+      let translatedText = '';
+      if (translatedResult) {
+        translatedText = translatedResult[0];
+        console.log('Text:', text);
+        console.log('Translated:', translatedText);
+      }
+      chrome.tabs.sendMessage(self.tab.id, {
+        method: 'translate',
+        itemId: itemId,
+        translatedText: translatedText
+      });
+    });
   }
 };
 

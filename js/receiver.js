@@ -1,6 +1,10 @@
 let viewer = document.getElementById('spchtrs-viewer');
 let threadContainer = viewer.querySelector('.threads');
 
+function getRandomHash(){
+  return Math.random().toString(36).substring(2, 12);
+}
+
 function wrapText(text){
   let t = document.createElement('span');
   t.classList.add('text-bg');
@@ -8,9 +12,16 @@ function wrapText(text){
   return t;
 }
 
+function setText(id, text){
+  let t = document.getElementById(id);
+  let wrapper = t.querySelector('.text > span');
+  wrapper.innerText = text;
+}
+
 function addTextItem(text, subtext){
   let item = document.createElement('div');
   item.classList.add('item');
+  item.id = getRandomHash();
 
   let text_cont = document.createElement('div');
   text_cont.classList.add('text');
@@ -31,21 +42,11 @@ function addTextItem(text, subtext){
   }
 
   return new Promise(function(resolve, reject) {
-    resolve(item, text, subtext);
+    resolve({itemId: item.id, text: subtext});
   });
 }
 
-function requestTranslate(item, text, subtext) {
-  let result = 'translated-text';
-  let resultText = item.querySelector('.text > span');
-  return new Promise(function(resolve, reject) {
-    setTimeout(function(){
-      resultText.innerText = result;
-    }, 2000);
-  });
-}
-
-function appendResult(results){
+function appendResult(results, sendResponse){
   if (!results || !results.length) return;
   results.forEach(function(result, idx){
     let alternatives = result.alternatives || [];
@@ -55,7 +56,7 @@ function appendResult(results){
       let confidence = alternatives[i].confidence || 0.0;
       let confidenceHumanized = Math.round(confidence * 100 * 100) / 100;
       addTextItem('&#8230;', text)
-        .then(requestTranslate);
+        .then(sendResponse);
     }
   });
 
@@ -92,7 +93,9 @@ function showViewer(){
     } else if (msg.method === 'visualize') {
       visualize(msg.avgDecibel);
     } else if (msg.method === 'recognize') {
-      appendResult(msg.results);
+      appendResult(msg.results, sendResponse);
+    } else if (msg.method === 'translate') {
+      setText(msg.itemId, msg.translatedText);
     }
   });
 })();
