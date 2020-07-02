@@ -1,5 +1,5 @@
 
-# Speech-Translate-Extension
+# Speech-Translator-Extension
 
 [Here](https://github.com/joonas-yoon/speech-translator-server) is repository for web server to connect with this.
 
