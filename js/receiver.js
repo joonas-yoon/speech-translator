@@ -5,7 +5,7 @@ function getRandomHash(){
   return Math.random().toString(36).substring(2, 12);
 }
 
-function wrapText(text){
+function createText(text){
   let t = document.createElement('span');
   t.classList.add('text-bg');
   t.innerHTML = text;
@@ -25,12 +25,12 @@ function addTextItem(text, subtext){
 
   let text_cont = document.createElement('div');
   text_cont.classList.add('text');
-  if (text) text_cont.appendChild(wrapText(text));
+  if (text) text_cont.appendChild(createText(text));
   item.appendChild(text_cont);
 
   let text_cont2 = document.createElement('div');
   text_cont2.classList.add('sub-text');
-  if (subtext) text_cont2.appendChild(wrapText(subtext));
+  if (subtext) text_cont2.appendChild(createText(subtext));
   item.appendChild(text_cont2);
 
   threadContainer.appendChild(item);
@@ -50,7 +50,7 @@ function appendResult(results, sendResponse){
   if (!results || !results.length) return;
   results.forEach(function(result, idx){
     let alternatives = result.alternatives || [];
-    console.log('[alternatives]', alternatives);
+    // console.log('[alternatives]', alternatives);
     for(var i = 0; i < alternatives.length; i++){
       let text = alternatives[i].transcript || '';
       let confidence = alternatives[i].confidence || 0.0;
@@ -59,7 +59,6 @@ function appendResult(results, sendResponse){
         .then(sendResponse);
     }
   });
-
 }
 
 // visualiser setup - create web audio api context and canvas

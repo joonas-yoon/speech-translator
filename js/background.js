@@ -19,7 +19,6 @@ class translator {
     this.chunks = [];
     this.mediaRecorder = new MediaRecorder(stream);
     this.mediaRecorder.ondataavailable = function(e) {
-      console.log(self.chunks);
       self.chunks.push(e.data);
     }
     
@@ -76,13 +75,15 @@ class translator {
   }
 
   startRecord() {
-    console.log('state', this.state);
+    let prevState = this.state;
     this.mediaRecorder.start();
+    console.log("state: ", prevState, '->', this.state);
   }
 
   stopRecord() {
-    console.log('state', this.state);
+    let prevState = this.state;
     this.mediaRecorder.stop();
+    console.log("state: ", prevState, '->', this.state);
   }
 
   play() {
@@ -103,7 +104,7 @@ class translator {
     let clipId = get_current_clipname();
     fileData.append('audio', audio);
     fileData.append('filename', clipId);
-    
+
     let langcode = 'en-US';
     fileData.append('langcode', langcode);
 
