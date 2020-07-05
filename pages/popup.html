@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Stylizr</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        width: 200px;
+      }
+      .btn-group {
+        clear: both;
+      }
+      .btn {
+        float: left;
+        margin: 0.5em auto;
+        width: 100%;
+        padding: 0.4em;
+        color: #ffffff;
+        border: 1px solid;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .btn-start {
+        background: #1976d2;
+        border-color: #2962ff;
+      }
+      .btn-start:hover, .btn-start:focus {
+        background: #1565c0;
+      }
+      .btn-stop {
+        display: none;
+        background: #c62828;
+        border-color: #d51212;
+      }
+      .btn-stop:hover, .btn-stop:focus {
+        background: #b71c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="message"></div>
+
+    <div class="btn-group">
+      <button id="btn-start" class="btn btn-start">START</button>
+      <button id="btn-stop" class="btn btn-stop">STOP</button>
+    </div>
+
+    <script src="../js/util.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
