@@ -77,4 +77,32 @@
     cursor: pointer;
     background: transparent;
 }
+
+.gradient-animation-border {
+    border-color: #3494f2;
+    -webkit-animation: AnimateGradientBorder 10s ease-in-out infinite;
+    -moz-animation: AnimateGradientBorder 10s ease-in-out infinite;
+    animation: AnimateGradientBorder 10s ease-in-out infinite;
+}
+
+@-webkit-keyframes AnimateGradientBorder {
+    0%{border-color: #3494f2}
+    25%{border-color: #41bf88}
+    50%{border-color: #d6ee52}
+    75%{border-color: #f06d6d}
+    100%{border-color: #3494f2}
+}
+@-moz-keyframes AnimateGradientBorder {
+    0%{border-color: #3494f2}
+    25%{border-color: #41bf88}
+    50%{border-color: #d6ee52}
+    75%{border-color: #f06d6d}
+    100%{border-color: #3494f2}
+}
+@keyframes AnimateGradientBorder {
+    0%{border-color: #3494f2}
+    25%{border-color: #41bf88}
+    50%{border-color: #d6ee52}
+    75%{border-color: #f06d6d}
+    100%{border-color: #3494f2}
 }

@@ -24,7 +24,7 @@ function inject_html(node) {
     let footer = document.createElement('div');
     footer.className = 'footer';
     let volumeCell = document.createElement('div');
-    volumeCell.classList = 'volumebar';
+    volumeCell.classList = 'volumebar gradient-animation-background';
     footer.appendChild(volumeCell);
     wrapper.appendChild(footer);
 
