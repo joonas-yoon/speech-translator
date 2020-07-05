@@ -28,5 +28,9 @@ function inject_html(node) {
     footer.appendChild(volumeCell);
     wrapper.appendChild(footer);
 
+    let helpbutton = document.createElement('div');
+    helpbutton.className = 'helper';
+    wrapper.appendChild(helpbutton);
+
     inject_html(wrapper);
 })();

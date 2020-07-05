@@ -85,7 +85,6 @@ function showViewer(){
     }
 
     if (msg.method === 'showViewer') {
-      let str = Math.random().toString(36).substring(2);
       showViewer();
     } else if (msg.method === 'hideViewer') {
       hideViewer();
@@ -98,3 +97,18 @@ function showViewer(){
     }
   });
 })();
+
+viewer.querySelector('.helper').addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  let cls = 'recording';
+  if (viewer.classList.contains(cls)) {
+    chrome.runtime.sendMessage({msg: 'stop'});
+    viewer.classList.remove(cls);
+  } else {
+    chrome.runtime.sendMessage({msg: 'start'});
+    viewer.classList.add(cls);
+  }
+  
+  return false;
+}, false);

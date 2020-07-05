@@ -29,14 +29,6 @@ class translator {
     audioElement.load();
     audioElement.play();
     this.audio = audioElement;
-
-    this.startRecord();
-    setTimeout(function(){
-      self.stopRecord();
-    }, 5000);
-    setTimeout(function(){
-      self.play();
-    }, 8000);
   }
 
   get active() {
@@ -183,4 +175,14 @@ chrome.browserAction.onClicked.addListener(function (tab) {
       }
     );
   }
+});
+
+chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
+  if (data.msg === 'start') {
+    clients[sender.tab.id].startRecord();
+  } else if (data.msg === 'stop') {
+    clients[sender.tab.id].stopRecord();
+    clients[sender.tab.id].play();
+  } 
+  sendResponse(true);
 });
