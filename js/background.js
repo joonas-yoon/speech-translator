@@ -29,6 +29,8 @@ class translator {
     audioElement.load();
     audioElement.play();
     this.audio = audioElement;
+
+    this.appRunning = false;
   }
 
   get active() {
@@ -67,15 +69,26 @@ class translator {
   }
 
   startRecord() {
+    let self = this;
     let prevState = this.state;
     this.mediaRecorder.start();
     console.log("state: ", prevState, '->', this.state);
+    setTimeout(function(){
+      if (self.appRunning) {
+        self.stopRecord();
+      }
+    }, 10 * 1000);
   }
 
   stopRecord() {
+    let self = this;
     let prevState = this.state;
     this.mediaRecorder.stop();
     console.log("state: ", prevState, '->', this.state);
+    this.play();
+    if (this.appRunning) {
+      this.startRecord();
+    }
   }
 
   play() {
@@ -88,6 +101,16 @@ class translator {
       // audio.play();
       this.requestRecognize(blob);
     }
+  }
+
+  start() {
+    this.appRunning = true;
+    this.startRecord();
+  }
+
+  stop() {
+    this.appRunning = false;
+    this.stopRecord();
   }
   
   requestRecognize(audio) {
@@ -112,7 +135,9 @@ class translator {
           method: 'recognize',
           results: response.results || []
         }, function(resp) {
-          self.requestTranslate(resp);
+          if (resp) {
+            self.requestTranslate(resp);
+          }
         });
       }
     });
@@ -179,10 +204,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
   if (data.msg === 'start') {
-    clients[sender.tab.id].startRecord();
+    clients[sender.tab.id].start();
   } else if (data.msg === 'stop') {
-    clients[sender.tab.id].stopRecord();
-    clients[sender.tab.id].play();
+    clients[sender.tab.id].stop();
   } 
   sendResponse(true);
 });
