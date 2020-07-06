@@ -85,6 +85,13 @@
     animation: AnimateGradientBorder 10s ease-in-out infinite;
 }
 
+.gradient-animation-background {
+    background-color: #3494f2;
+    -webkit-animation: AnimateGradientBackground 5s ease-in-out infinite;
+    -moz-animation: AnimateGradientBackground 5s ease-in-out infinite;
+    animation: AnimateGradientBackground 5s ease-in-out infinite;
+}
+
 @-webkit-keyframes AnimateGradientBorder {
     0%{border-color: #3494f2}
     25%{border-color: #41bf88}
@@ -105,4 +112,26 @@
     50%{border-color: #d6ee52}
     75%{border-color: #f06d6d}
     100%{border-color: #3494f2}
+}
+
+@-webkit-keyframes AnimateGradientBackground {
+    0%{background-color: #3494f2}
+    25%{background-color: #41bf88}
+    50%{background-color: #d6ee52}
+    75%{background-color: #f06d6d}
+    100%{background-color: #3494f2}
+}
+@-moz-keyframes AnimateGradientBackground {
+    0%{background-color: #3494f2}
+    25%{background-color: #41bf88}
+    50%{background-color: #d6ee52}
+    75%{background-color: #f06d6d}
+    100%{background-color: #3494f2}
+}
+@keyframes AnimateGradientBackground {
+    0%{background-color: #3494f2}
+    25%{background-color: #41bf88}
+    50%{background-color: #d6ee52}
+    75%{background-color: #f06d6d}
+    100%{background-color: #3494f2}
 }
