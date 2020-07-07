@@ -64,18 +64,23 @@
 }
 
 #spchtrs-viewer .helper {
-    width: 26px;
-    height: 26px;
-    border-width: 8px;
-    border-style: solid;
-    border-color: rgba(128, 128, 128, 0.5);
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     position: absolute;
-    bottom: 5px;
-    left: 5px;
+    bottom: 10px;
+    left: 10px;
     float: left;
     cursor: pointer;
-    background: transparent;
+    background-size: cover;
+    opacity: 0.5;
+    transition: opacity ease-in-out 0.2s;
+}
+#spchtrs-viewer .helper:hover, #spchtrs-viewer .helper:focus {
+    opacity: 1.0;
+}
+#spchtrs-viewer .helper.gradient-animation-background {
+    background-image: none !important;
 }
 
 .gradient-animation-border {

@@ -41,5 +41,5 @@
     "tabs",
     "tabCapture"
   ],
-  "web_accessible_resources": ["style.css"]
+  "web_accessible_resources": ["style.css", "icon128.png"]
 }

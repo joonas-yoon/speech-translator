@@ -30,6 +30,7 @@ function inject_html(node) {
 
     let helpbutton = document.createElement('div');
     helpbutton.className = 'helper';
+    helpbutton.style.backgroundImage = 'url(' + chrome.extension.getURL('icon128.png') + ')';
     wrapper.appendChild(helpbutton);
 
     inject_html(wrapper);
