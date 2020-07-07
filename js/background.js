@@ -130,13 +130,15 @@ class translator {
       processData: false,
       contentType: false
     }).done(function(response){
-      if (response && response.results) {
+      if (response && response.results.length) {
+        console.log('response.results', response.results);
         chrome.tabs.sendMessage(self.tab.id, {
           method: 'recognize',
           results: response.results || []
-        }, function(resp) {
-          if (resp) {
-            self.requestTranslate(resp);
+        }, async function(resp) {
+          console.log(resp);
+          for (const res of resp) {
+            await self.requestTranslate(res);
           }
         });
       }
@@ -144,6 +146,7 @@ class translator {
   }
 
   requestTranslate(response) {
+    if (!response || Object.keys(response).length === 0) return;
     let self = this;
     let itemId = response.itemId;
     let text = response.text;

@@ -46,19 +46,23 @@ function addTextItem(text, subtext){
   });
 }
 
-function appendResult(results, sendResponse){
+async function appendResult(results, sendResponse){
   if (!results || !results.length) return;
-  results.forEach(function(result, idx){
+  let transcripts = [];
+  for (const result of results) {
     let alternatives = result.alternatives || [];
     // console.log('[alternatives]', alternatives);
-    for(var i = 0; i < alternatives.length; i++){
-      let text = alternatives[i].transcript || '';
-      let confidence = alternatives[i].confidence || 0.0;
+    for (const alter of alternatives) {
+      let text = alter.transcript || '';
+      let confidence = alter.confidence || 0.0;
       let confidenceHumanized = Math.round(confidence * 100 * 100) / 100;
-      addTextItem('&#8230;', text)
-        .then(sendResponse);
+      await addTextItem('&#8230;', text)
+        .then((item) => {
+          transcripts.push(item);
+        });
     }
-  });
+  }
+  sendResponse(transcripts);
 }
 
 // visualiser setup - create web audio api context and canvas

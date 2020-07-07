@@ -1,9 +1,9 @@
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #spchtrs-viewer {
-	display: none;
+    display: none;
     position: fixed;
     bottom: 0;
     padding: 5px;
@@ -14,51 +14,51 @@
 }
 
 #spchtrs-viewer .item {
-	opacity: 0.0;
-	padding-top: 0.3em;
-	margin: 0 auto;
-	line-height: 1.25;
-	font-size: 16pt;
+    opacity: 0.0;
+    padding-top: 0.3em;
+    margin: 0 auto;
+    line-height: 1.25;
+    font-size: 16pt;
 }
 
 #spchtrs-viewer .item:nth-last-child(1) {
-	opacity: 1.0;
+    opacity: 1.0;
 }
 
 #spchtrs-viewer .item:nth-last-child(2) {
-	opacity: 0.65;
+    opacity: 0.65;
 }
 
 #spchtrs-viewer .item:nth-last-child(3) {
-	opacity: 0.45;
+    opacity: 0.45;
 }
 
 #spchtrs-viewer .item:nth-last-child(4) {
-	opacity: 0.2;
+    opacity: 0.2;
 }
 
 #spchtrs-viewer .text-bg {
-	color: white;
-	background: black;
-	padding: 0 6px;
+    color: white;
+    background: black;
+    padding: 0 6px;
 }
 
 #spchtrs-viewer .sub-text {
-	font-size: 80%;
+    font-size: 80%;
 }
 
 #spchtrs-viewer .sub-text > .text-bg {
-	color: rgba(255, 255, 255, .8);
+    color: rgba(255, 255, 255, .8);
 }
 
 #spchtrs-viewer .footer .volumebar {
-	display: inline-block;
-	margin: 2px auto;
-	width: 0%;
-	height: 5px;
+    display: inline-block;
+    margin: 2px auto;
+    width: 0%;
+    height: 5px;
     background: rgba(128, 128, 128, 0.5);
-	border-radius: 1em;
-	-webkit-transition: width 0.2s, height 0.2s;
+    border-radius: 1em;
+    -webkit-transition: width 0.2s, height 0.2s;
     transition: width 0.2s, height 0.2s;
     opacity: 0.75;
 }
