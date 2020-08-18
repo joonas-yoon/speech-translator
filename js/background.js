@@ -208,8 +208,11 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
   if (data.msg === 'start') {
     clients[sender.tab.id].start();
+    sendResponse(true);
   } else if (data.msg === 'stop') {
     clients[sender.tab.id].stop();
-  } 
-  sendResponse(true);
+    sendResponse(true);
+  } else if (data.msg === 'display') {
+    sendResponse(clients[sender.tab.id] !== undefined);
+  }
 });

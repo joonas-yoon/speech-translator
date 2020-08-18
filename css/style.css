@@ -83,6 +83,18 @@
     background-image: none !important;
 }
 
+#spchtrs-threads {
+    position: absolute;
+    bottom: 2.25rem;
+    width: fit-content;
+    height: fit-content;
+    cursor: grab;
+}
+
+#spchtrs-threads:active {
+    cursor: grabbing;
+}
+
 .gradient-animation-border {
     border-color: #3494f2;
     -webkit-animation: AnimateGradientBorder 10s ease-in-out infinite;

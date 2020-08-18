@@ -18,6 +18,7 @@ function inject_html(node) {
     wrapper.id = 'spchtrs-viewer';
 
     let threadContainer = document.createElement('div');
+    threadContainer.id = 'spchtrs-threads';
     threadContainer.className = 'threads';
     wrapper.appendChild(threadContainer);
 
