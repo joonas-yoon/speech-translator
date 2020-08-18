@@ -106,15 +106,12 @@ viewer.querySelector('.helper').addEventListener('click', (evt) => {
   evt.preventDefault();
 
   let cls = 'recording';
-  let css = 'gradient-animation-background';
   if (viewer.classList.contains(cls)) {
     chrome.runtime.sendMessage({msg: 'stop'});
     viewer.classList.remove(cls);
-    evt.target.classList.remove(css);
   } else {
     chrome.runtime.sendMessage({msg: 'start'});
     viewer.classList.add(cls);
-    evt.target.classList.add(css);
   }
   
   return false;
