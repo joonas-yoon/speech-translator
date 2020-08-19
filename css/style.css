@@ -88,86 +88,8 @@
     height: fit-content;
     cursor: grab;
 }
-
 #spchtrs-threads:active {
     cursor: grabbing;
-}
-
-.spchtrs ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
-}
-.spchtrs ::-webkit-scrollbar-thumb {
-    cursor: pointer;
-    border-radius: 5px;
-    background: rgba(0,0,0,.25);
-    -webkit-transition: color .2s ease;
-    transition: color .2s ease;
-}
-.spchtrs ::-webkit-scrollbar-track {
-    background: rgba(0,0,0,.1);
-    border-radius: 0;
-}
-.spchtrs.search-form {
-    display: inline-block;
-    position: relative;
-}
-.spchtrs.search-form .select-langs {
-    width: 130px;
-    position: absolute;
-    top: -205px;
-    max-height: 200px;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-    backface-visibility: hidden;
-    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, .12);
-}
-.spch.lang {
-    position: relative;
-    cursor: pointer;
-    display: block;
-    border: none;
-    border-top: none;
-    background-color: #fff;
-    transition: background-color .2s;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-}
-.spch.lang:hover {
-    background-color: #eee;
-}
-.spch.lang,
-.spch.lang-input {
-    height: auto;
-    text-align: left;
-    line-height: 1.75em;
-    color: #222;
-    padding: 0.3rem 1rem;
-    font-size: 0.9rem;
-    text-transform: none;
-    font-weight: normal;
-    box-shadow: none;
-}
-.spch.lang-input {
-    width: 132px;
-    border: 0;
-    border-radius: 0.25rem;
-    outline: 0;
-    background-color: #eee;
-    transition: background-color .2s;
-}
-.spch.lang-input:active {
-    background-color: #ddd;
-}
-.spch.lang-input:active,
-.spch.lang-input:focus {
-    background-color: #ccc;
 }
 
 .gradient-animation-border {
