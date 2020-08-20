@@ -81,7 +81,8 @@ h3 {
 }
 .search-form .select-langs > .lang,
 .search-form > .lang-input {
-    height: 2.25rem;
+    height: auto;
+    min-height: 2.25rem;
     text-align: left;
     line-height: 1.75em;
     color: #222;
@@ -90,6 +91,7 @@ h3 {
     text-transform: none;
     font-weight: normal;
     box-shadow: none;
+    word-break: break-word;
 }
 .search-form > .lang-input {
     width: 132px;
@@ -129,6 +131,10 @@ h3 {
     border: 1px solid #5c82d8;
     color: #ffffff;
     background: #678fe8;
+}
+.btn.submit[disabled] {
+    background: #bbcbf1 !important;
+    border: #bbcbf1 !important;
 }
 .btn.submit:hover {
     background: #5b85e0;
