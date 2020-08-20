@@ -3,23 +3,23 @@
 // found in the LICENSE file.
 
 // The window (tab) opened and navigated to receiver.html.
-var receiver = null;
+let receiver = null;
 
 // Open a new window of receiver.html when browser action icon is clicked.
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabCapture.capture(
-    {video: false, audio: true},
-    function(stream) {
-      if (!stream) {
-        console.error('Error starting tab capture: ' +
+      {video: false, audio: true},
+      function(stream) {
+        if (!stream) {
+          console.error('Error starting tab capture: ' +
                       (chrome.runtime.lastError.message || 'UNKNOWN'));
-        return;
+          return;
+        }
+        if (receiver != null) {
+          receiver.close();
+        }
+        receiver = window.open('receiver.html');
+        receiver.currentStream = stream;
       }
-      if (receiver != null) {
-        receiver.close();
-      }
-      receiver = window.open('receiver.html');
-      receiver.currentStream = stream;
-    }
   );
 });
