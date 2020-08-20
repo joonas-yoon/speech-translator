@@ -1,18 +1,17 @@
-
 # Speech Translator Chrome Extension
 
 <div align=center>
 
-  ![Logo](./logo.png)
+![Logo](./logo.png)
 
 </div>
 
 <div align=center>
 
-  ![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
-  [![Build Status](https://travis-ci.org/joonas-yoon/speech-translator-server.svg?branch=master)](https://travis-ci.org/joonas-yoon/speech-translator-server)
-  [![GitHub stars](https://img.shields.io/github/stars/joonas-yoon/speech-translator)](https://github.com/joonas-yoon/speech-translator/stargazers)
-  [![Code Style](https://img.shields.io/badge/code%20style-google-informational.svg)](https://google.github.io/styleguide/jsguide.html)
+![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
+[![Build Status](https://travis-ci.org/joonas-yoon/speech-translator-server.svg?branch=master)](https://travis-ci.org/joonas-yoon/speech-translator-server)
+[![GitHub stars](https://img.shields.io/github/stars/joonas-yoon/speech-translator)](https://github.com/joonas-yoon/speech-translator/stargazers)
+[![Code Style](https://img.shields.io/badge/code%20style-google-informational.svg)](https://google.github.io/styleguide/jsguide.html)
 
 </div>
 
@@ -38,11 +37,13 @@ This browser extension shows the translated results of speech from browser tab s
 Kill all chrome instances before running command:
 
 Windows:
+
 ```
 CMD> "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir="[temp directory here]"
 ```
 
 Linux/Mac:
+
 ```
 chromium-browser --disable-web-security --user-data-dir="[temp directory here]"
 ```

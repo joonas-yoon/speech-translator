@@ -4,32 +4,22 @@
   "version": "1.3.0",
   "manifest_version": 2,
   "background": {
-    "scripts": [
-      "js/jquery-3.3.1.min.js",
-      "js/background.js"
-    ],
+    "scripts": ["js/jquery-3.3.1.min.js", "js/background.js"],
     "persistent": false
   },
   "browser_action": {
     "default_icon": "icons/icon.png",
     "default_title": "Translate!"
   },
-  "content_scripts": [{
-      "matches": [
-        "<all_urls>"
-      ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
       "all_frames": true,
-      "css": [
-        "css/style.css"
-      ],
-      "js": [
-        "js/jquery-3.3.1.min.js",
-        "js/inject.js",
-        "js/receiver.js"
-      ]
+      "css": ["css/style.css"],
+      "js": ["js/jquery-3.3.1.min.js", "js/inject.js", "js/receiver.js"]
     }
   ],
-  "icons": { 
+  "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
