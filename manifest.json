@@ -39,7 +39,9 @@
     "activeTab",
     "storage",
     "tabs",
-    "tabCapture"
+    "tabCapture",
+    "http://localhost/"
   ],
-  "web_accessible_resources": ["style.css"]
+  "web_accessible_resources": ["style.css"],
+  "content_security_policy": "script-src 'self' blob:; object-src 'self';"
 }
