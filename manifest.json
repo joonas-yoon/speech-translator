@@ -1,21 +1,47 @@
 {
   "name": "Speech Translator",
-  "description": "Detect audio from your current tab and translate it.",
-  "version": "1.2.4",
+  "description": "Translate audio speech from your tab.",
+  "version": "1.3.0",
   "manifest_version": 2,
   "background": {
     "scripts": [
-      "eventPage.js"
+      "js/jquery-3.3.1.min.js",
+      "js/background.js"
     ],
     "persistent": false
   },
   "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "icons/icon.png",
+    "default_title": "Translate!"
   },
+  "content_scripts": [{
+      "matches": [
+        "<all_urls>"
+      ],
+      "all_frames": true,
+      "css": [
+        "css/style.css"
+      ],
+      "js": [
+        "js/jquery-3.3.1.min.js",
+        "js/inject.js",
+        "js/receiver.js"
+      ]
+    }
+  ],
+  "icons": { 
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_page": "pages/options.html",
   "permissions": [
+    "activeTab",
+    "storage",
     "tabs",
     "tabCapture",
-    "http://*/*"
+    "http://localhost/"
   ],
-  "content_security_policy": "script-src 'self' https://use.fontawesome.com https://cdn.jsdelivr.net blob: filesystem: chrome-extension-resource:; object-src 'self';"
+  "web_accessible_resources": ["style.css"],
+  "content_security_policy": "script-src 'self' blob:; object-src 'self';"
 }
