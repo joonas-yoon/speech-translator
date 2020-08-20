@@ -21,7 +21,7 @@ jobs:
           node-version: 12
 
       - name: Install ESLint dependencies and configs
-        run: npm install --save-dev eslint eslint-config-standard eslint-plugin-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-node babel-eslint
+        run: npm install --save-dev eslint eslint-config-google eslint-plugin-promise eslint-plugin-import eslint-plugin-node babel-eslint
 
       - name: Run linters
         uses: wearerequired/lint-action@v1
