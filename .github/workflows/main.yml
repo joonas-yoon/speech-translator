@@ -25,10 +25,12 @@ jobs:
           npm install --save-dev eslint eslint-config-google eslint-plugin-promise eslint-plugin-import eslint-plugin-node babel-eslint
           npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
 
+      # Run the linting action
       - name: Run linters
-        uses: wearerequired/lint-action@v1
+        uses: samuelmeuli/lint-action@v1.5.3
         with:
-          github_token: ${{ secrets.github_token }}
-          eslint: true
-          prettier: true
-          auto_fix: true
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Authorizes the github action via a Github token which is for this repo only (Generated automatically)
+          eslint: true # Enables eslint
+          prettier: true # Enables prettier to prettieifer the code when commiting and spots any violations
+          auto_fix: true # Auto fixes an prettier or eslint violations
+          git_email: 'joonas.yoon@gmail.com'
