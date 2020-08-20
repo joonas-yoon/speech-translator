@@ -1,4 +1,6 @@
 const API_URL = 'http://localhost/api';
+// Store CSS data in the "local" storage area.
+const storage = chrome.storage.local;
 
 let srcLang = document.getElementById('src-lang');
 let dstLang = document.getElementById('dst-lang');
@@ -23,7 +25,6 @@ function createLangaugeItem(code, name) {
 
 function onInputChanged(evt) {
     let e = evt.target;
-    console.log(e);
     let langs = e.parentElement.querySelectorAll('.select-langs > .lang');
     let str = e.value.toLowerCase();
     langs.forEach(function (val, idx) {
@@ -70,11 +71,42 @@ function load() {
     .fail(function(xhr, status, errorThrown){
         console.error(xhr, status, errorThrown);
         addAlertMessage('Server Error', 'fail', true);
+    })
+    .always(sync);
+}
+
+// syncronize between forms and storage
+function sync() {
+    // get settings or set default
+    storage.get('options', function(item) {
+        let options = item.options;
+        if (options.srcLangName) {
+            srcLangInput.value = options.srcLangName;
+            dstLangInput.value_code = options.dstLangCode;
+        } else {
+            srcLangInput.value = 'English';
+            srcLangInput.value_code = 'en';
+        }
+        if (options.dstLangCode) {
+            dstLangInput.value = options.dstLangName;
+            dstLangInput.value_code = options.dstLangCode;
+        } else {
+            dstLangInput.value = 'Korean';
+            dstLangInput.value_code = 'ko';
+        }
     });
 }
 
 function save() {
-    addAlertMessage('All saved successfully!');
+    let opt = {};
+    opt['srcLangName'] = srcLangInput.value || 'Korean';
+    opt['srcLangCode'] = srcLangInput.value_code || 'ko';
+    opt['dstLangName'] = dstLangInput.value || 'English';
+    opt['dstLangCode'] = dstLangInput.value_code || 'en';
+    storage.set({'options': opt}, function() {
+        addAlertMessage('All saved successfully!', 'success');
+        sync();
+    });
 }
 
 function addAlertMessage(msg, cls, keep) {
