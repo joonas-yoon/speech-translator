@@ -7,7 +7,6 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "chrome": true,
     "es6": true,
     "webextensions": true
   }
