@@ -14,8 +14,10 @@ function createText(text){
 
 function setText(id, text){
   let t = document.getElementById(id);
+  if (!t) return false;
   let wrapper = t.querySelector('.text > span');
-  wrapper.innerText = text;
+  wrapper.innerHTML = text;
+  return true;
 }
 
 function addTextItem(text, subtext){
@@ -74,10 +76,12 @@ function visualize(percentage){
 
 function hideViewer(){
   $(viewer).fadeOut();
+  chrome.runtime.sendMessage({msg: 'stop'});
 }
 
 function showViewer(){
   $(viewer).fadeIn();
+  chrome.runtime.sendMessage({msg: 'start'});
 }
 
 (function ping() {
@@ -96,26 +100,13 @@ function showViewer(){
       visualize(msg.avgDecibel);
     } else if (msg.method === 'recognize') {
       appendResult(msg.results, sendResponse);
-    } else if (msg.method === 'translate') {
-      setText(msg.itemId, msg.translatedText);
+    } else if (msg.method === 'message') {
+      if (!setText(msg.itemId, msg.text)) {
+        addTextItem('&#8230;', msg.text);
+      }
     }
   });
 })();
-
-viewer.querySelector('.helper').addEventListener('click', (evt) => {
-  evt.preventDefault();
-
-  let cls = 'recording';
-  if (viewer.classList.contains(cls)) {
-    chrome.runtime.sendMessage({msg: 'stop'});
-    viewer.classList.remove(cls);
-  } else {
-    chrome.runtime.sendMessage({msg: 'start'});
-    viewer.classList.add(cls);
-  }
-  
-  return false;
-}, false);
 
 // when page refreshed, display needs to sync up
 chrome.runtime.sendMessage({msg: 'display'}, function (isDisplayed) {

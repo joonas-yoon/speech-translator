@@ -1,4 +1,4 @@
-const SERVER_HOST = 'http://localhost:3000/api';
+const API_URL = 'http://localhost/api';
 
 function get_random_hash(){
   return Math.random().toString(36).substring(2, 12);
@@ -6,6 +6,14 @@ function get_random_hash(){
 
 function get_current_clipname(){
   return get_random_hash() + "-" + (new Date().getTime());
+}
+
+function errorMessage(tabId, itemId, msg) {
+  chrome.tabs.sendMessage(tabId, {
+    method: 'message',
+    itemId: itemId,
+    text: '<i>[' + msg + ']</i>'
+  });
 }
 
 class translator {
@@ -124,12 +132,13 @@ class translator {
     fileData.append('langcode', langcode);
 
     $.ajax({
-      url: SERVER_HOST + '/app/collect',
+      url: API_URL + '/app/collect',
       type: 'post',
       data: fileData,
       processData: false,
       contentType: false
-    }).done(function(response){
+    })
+    .done(function(response){
       if (response && response.results.length) {
         console.log('response.results', response.results);
         chrome.tabs.sendMessage(self.tab.id, {
@@ -142,6 +151,9 @@ class translator {
           }
         });
       }
+    })
+    .fail(function(xhr, status, errorThrown){
+      errorMessage(self.tab.id, clipId, xhr.statusText + ' - ' + xhr.status);
     });
   }
 
@@ -151,7 +163,7 @@ class translator {
     let itemId = response.itemId;
     let text = response.text;
     $.ajax({
-      url: SERVER_HOST + '/app/translate',
+      url: API_URL + '/app/translate',
       type: 'post',
       data: JSON.stringify({
         src_lang: 'en',
@@ -160,7 +172,8 @@ class translator {
       }),
       processData: false,
       contentType: 'application/json'
-    }).done(function(translatedResult){
+    })
+    .done(function(translatedResult){
       let translatedText = '';
       if (translatedResult) {
         translatedText = translatedResult[0];
@@ -168,10 +181,13 @@ class translator {
         console.log('Translated:', translatedText);
       }
       chrome.tabs.sendMessage(self.tab.id, {
-        method: 'translate',
+        method: 'message',
         itemId: itemId,
-        translatedText: translatedText
+        text: translatedText
       });
+    })
+    .fail(function(xhr, status, errorThrown){
+      errorMessage(self.tab.id, response.itemId, xhr.statusText + ' - ' + xhr.status);
     });
   }
 };
@@ -206,6 +222,10 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 });
 
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
+  if (!clients[sender.tab.id]) {
+    console.log('No client connected');
+    return;
+  }
   if (data.msg === 'start') {
     clients[sender.tab.id].start();
     sendResponse(true);
