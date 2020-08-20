@@ -33,4 +33,7 @@ jobs:
           eslint: true # Enables eslint
           prettier: true # Enables prettier to prettieifer the code when commiting and spots any violations
           auto_fix: true # Auto fixes an prettier or eslint violations
-          git_email: 'joonas.yoon@gmail.com'
+          
+          git_name: "Lint Action Bot"
+          git_email: "joonas.yoon@gmail.com"
+          commit_message: ":art: Fix code style issues with ${linter}"
