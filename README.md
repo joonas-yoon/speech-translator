@@ -8,6 +8,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.2.4-blue.svg" alt="version-1.2.4"/>
   <a href="https://travis-ci.org/joonas-yoon/speech-translator-server"><img src="https://travis-ci.org/joonas-yoon/speech-translator-server.svg?branch=master" alt="Build Status"/></a>
+  <a href="https://github.com/joonas-yoon/speech-translator/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/joonas-yoon/speech-translator"></a>
+  <a href="https://google.github.io/styleguide/jsguide.html"><img src="https://img.shields.io/badge/code%20style-google-informational.svg" alt="code-style"/></a>
 </p>
 
 This browser extension shows the translated results of speech from browser tab sound.
