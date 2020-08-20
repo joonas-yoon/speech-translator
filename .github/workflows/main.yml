@@ -23,7 +23,7 @@ jobs:
       - name: Install ESLint dependencies and configs
         run: |
           npm install --save-dev eslint eslint-config-google eslint-plugin-promise eslint-plugin-import eslint-plugin-node babel-eslint
-          npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
+          npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier eslint-auto-fix
 
       # Run the linting action
       - name: Run linters

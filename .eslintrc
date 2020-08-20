@@ -4,10 +4,16 @@
     "eslint:recommended",
     "google"
   ],
+  "rules": {
+    "semi": [2, "always"],
+    "linebreak-style": ["error", "windows"],
+    "require-jsdoc" : 0
+  },
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
+    "jquery": true,
     "webextensions": true
   }
 }
