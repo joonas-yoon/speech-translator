@@ -1,45 +1,45 @@
-let viewer = document.getElementById('spchtrs-viewer');
-let threadContainer = viewer.querySelector('#spchtrs-threads');
+const viewer = document.getElementById('spchtrs-viewer');
+const threadContainer = viewer.querySelector('#spchtrs-threads');
 
-function getRandomHash(){
+function getRandomHash() {
   return Math.random().toString(36).substring(2, 12);
 }
 
-function createText(text){
-  let t = document.createElement('span');
+function createText(text) {
+  const t = document.createElement('span');
   t.classList.add('text-bg');
   t.innerHTML = text;
   return t;
 }
 
-function setText(id, text){
-  let t = document.getElementById(id);
+function setText(id, text) {
+  const t = document.getElementById(id);
   if (!t) return false;
-  let wrapper = t.querySelector('.text > span');
+  const wrapper = t.querySelector('.text > span');
   wrapper.innerHTML = text;
   return true;
 }
 
-function addTextItem(text, subtext){
-  let item = document.createElement('div');
+function addTextItem(text, subtext) {
+  const item = document.createElement('div');
   item.classList.add('item');
   item.id = getRandomHash();
 
-  let text_cont = document.createElement('div');
+  const text_cont = document.createElement('div');
   text_cont.classList.add('text');
   if (text) text_cont.appendChild(createText(text));
   item.appendChild(text_cont);
 
-  let text_cont2 = document.createElement('div');
+  const text_cont2 = document.createElement('div');
   text_cont2.classList.add('sub-text');
   if (subtext) text_cont2.appendChild(createText(subtext));
   item.appendChild(text_cont2);
 
   threadContainer.appendChild(item);
 
-  let $threads = $(threadContainer);
-  let counts = $threads.find(".item").length;
-  if (counts >= 5){
+  const $threads = $(threadContainer);
+  const counts = $threads.find('.item').length;
+  if (counts >= 5) {
     threadContainer.removeChild(threadContainer.firstChild);
   }
 
@@ -48,45 +48,45 @@ function addTextItem(text, subtext){
   });
 }
 
-async function appendResult(results, sendResponse){
+async function appendResult(results, sendResponse) {
   if (!results || !results.length) return;
-  let transcripts = [];
+  const transcripts = [];
   for (const result of results) {
-    let alternatives = result.alternatives || [];
+    const alternatives = result.alternatives || [];
     // console.log('[alternatives]', alternatives);
     for (const alter of alternatives) {
-      let text = alter.transcript || '';
-      let confidence = alter.confidence || 0.0;
-      let confidenceHumanized = Math.round(confidence * 100 * 100) / 100;
+      const text = alter.transcript || '';
+      const confidence = alter.confidence || 0.0;
+      const confidenceHumanized = Math.round(confidence * 100 * 100) / 100;
       await addTextItem('&#8230;', text)
-        .then((item) => {
-          transcripts.push(item);
-        });
+          .then((item) => {
+            transcripts.push(item);
+          });
     }
   }
   sendResponse(transcripts);
 }
 
 // visualiser setup - create web audio api context and canvas
-function visualize(percentage){
-  let footerContainer = viewer.querySelector('.footer');
-  let bar = footerContainer.querySelector('.volumebar');
+function visualize(percentage) {
+  const footerContainer = viewer.querySelector('.footer');
+  const bar = footerContainer.querySelector('.volumebar');
   bar.style.width = (percentage * 50) + '%';
 }
 
-function hideViewer(){
+function hideViewer() {
   $(viewer).fadeOut();
   chrome.runtime.sendMessage({msg: 'stop'});
 }
 
-function showViewer(){
+function showViewer() {
   $(viewer).fadeIn();
   chrome.runtime.sendMessage({msg: 'start'});
 }
 
 (function ping() {
   // Listen for messages
-  chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (chrome.runtime.lastError) {
       setTimeout(ping, 100);
       return;
@@ -109,7 +109,7 @@ function showViewer(){
 })();
 
 // when page refreshed, display needs to sync up
-chrome.runtime.sendMessage({msg: 'display'}, function (isDisplayed) {
+chrome.runtime.sendMessage({msg: 'display'}, function(isDisplayed) {
   if (isDisplayed) {
     showViewer();
   } else {
@@ -119,8 +119,8 @@ chrome.runtime.sendMessage({msg: 'display'}, function (isDisplayed) {
 
 // make element draggable
 function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  var oldmouseup, oldmousemove;
+  let pos1 = 0; let pos2 = 0; let pos3 = 0; let pos4 = 0;
+  let oldmouseup; let oldmousemove;
 
   elmnt.onmousedown = dragMouseDown;
 
@@ -147,8 +147,8 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.top = (elmnt.offsetTop - pos2) + 'px';
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + 'px';
   }
 
   function closeDragElement() {
@@ -161,7 +161,7 @@ function dragElement(elmnt) {
 }
 
 // absolutely center positioned
-(function centering(){
+(function centering() {
   if (threadContainer.dragged) return;
   threadContainer.style.left = 'calc(50% - ' + (threadContainer.offsetWidth / 2) + 'px)';
   setTimeout(centering, 100);
