@@ -5,7 +5,7 @@
   "rules": {
     "semi": ["error", "always"],
     "linebreak-style": ["error", "windows"],
-    "require-jsdoc" : 0
+    "require-jsdoc": 0
   },
   "parser": "babel-eslint",
   "env": {
