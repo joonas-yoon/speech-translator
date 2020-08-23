@@ -87,7 +87,7 @@ function load() {
 function sync() {
   // get settings or set default
   storage.get('options', function (item) {
-    const options = item.options;
+    const options = item.options || {};
     if (options.srcLangName) {
       srcLangInput.value = options.srcLangName;
       dstLangInput.value_code = options.dstLangCode;

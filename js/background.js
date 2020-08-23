@@ -8,6 +8,12 @@ function getCurrentClipname() {
   return getRandomHash() + '-' + new Date().getTime();
 }
 
+function getOptions(callback) {
+  chrome.storage.local.get('options', function(item) {
+    callback(item.options || {});
+  });
+}
+
 function errorMessage(tabId, itemId, msg) {
   chrome.tabs.sendMessage(tabId, {
     method: 'message',
@@ -158,43 +164,45 @@ class Translator {
       });
   }
 
-  requestTranslate(response) {
+  async requestTranslate(response) {
     if (!response || Object.keys(response).length === 0) return;
     const self = this;
     const itemId = response.itemId;
     const text = response.text;
 
-    $.ajax({
-      url: API_URL + '/app/translate',
-      type: 'post',
-      data: JSON.stringify({
-        src_lang: 'en',
-        dst_lang: 'ko',
-        src_text: text,
-      }),
-      processData: false,
-      contentType: 'application/json',
-    })
-      .done(function (translatedResult) {
-        let translatedText = '';
-        if (translatedResult) {
-          translatedText = translatedResult[0];
-          console.log('Text:', text);
-          console.log('Translated:', translatedText);
-        }
-        chrome.tabs.sendMessage(self.tab.id, {
-          method: 'message',
-          itemId: itemId,
-          text: translatedText,
-        });
+    await getOptions(function (options) {
+      $.ajax({
+        url: API_URL + '/app/translate',
+        type: 'post',
+        data: JSON.stringify({
+          src_lang: options.srcLangCode || 'en',
+          dst_lang: options.dstLangCode || 'ko',
+          src_text: text,
+        }),
+        processData: false,
+        contentType: 'application/json',
       })
-      .fail(function (xhr, status, errorThrown) {
-        errorMessage(
-          self.tab.id,
-          response.itemId,
-          xhr.statusText + ' - ' + xhr.status
-        );
-      });
+        .done(function (translatedResult) {
+          let translatedText = '';
+          if (translatedResult) {
+            translatedText = translatedResult[0];
+            console.log(`[${options.srcLangName}]: ${text}`);
+            console.log(`[${options.dstLangName}]: ${translatedText}`);
+          }
+          chrome.tabs.sendMessage(self.tab.id, {
+            method: 'message',
+            itemId: itemId,
+            text: translatedText,
+          });
+        })
+        .fail(function (xhr, status, errorThrown) {
+          errorMessage(
+            self.tab.id,
+            response.itemId,
+            `${xhr.statusText} - ${xhr.status}`
+          );
+        });
+    });
   }
 }
 
