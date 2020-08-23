@@ -9,7 +9,7 @@ function getCurrentClipname() {
 }
 
 function getOptions(callback) {
-  chrome.storage.local.get('options', function(item) {
+  chrome.storage.local.get('options', function (item) {
     callback(item.options || {});
   });
 }
