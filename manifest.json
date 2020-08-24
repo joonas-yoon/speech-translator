@@ -16,7 +16,11 @@
       "matches": ["<all_urls>"],
       "all_frames": true,
       "css": ["css/style.css"],
-      "js": ["js/jquery-3.3.1.min.js", "js/build/inject.js", "js/build/receiver.js"]
+      "js": [
+        "js/jquery-3.3.1.min.js",
+        "js/build/inject.js",
+        "js/build/receiver.js"
+      ]
     }
   ],
   "icons": {
@@ -25,13 +29,7 @@
     "128": "icons/icon128.png"
   },
   "options_page": "options.html",
-  "permissions": [
-    "activeTab",
-    "storage",
-    "tabs",
-    "tabCapture",
-    "http://*/*"
-  ],
+  "permissions": ["activeTab", "storage", "tabs", "tabCapture", "http://*/*"],
   "web_accessible_resources": ["css/style.css"],
   "content_security_policy": "script-src 'self' blob:; object-src 'self';"
 }
