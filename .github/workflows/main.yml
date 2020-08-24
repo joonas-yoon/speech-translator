@@ -31,7 +31,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Authorizes the github action via a Github token which is for this repo only (Generated automatically)
           eslint: true # Enables eslint
+          eslint_args: "-c .eslintrc"
           prettier: true # Enables prettier to prettieifer the code when commiting and spots any violations
+          prettier_args: "-c .prettierrc"
           auto_fix: true # Auto fixes an prettier or eslint violations
           
           git_name: "Lint Action Bot"

@@ -1,5 +1,7 @@
 node_modules/*
-
+build/
 **/*.min.js
-
 .github/
+.*
+package.json
+package-lock.json
