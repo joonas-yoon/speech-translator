@@ -1,3 +1,5 @@
+'use strict';
+
 const viewer = document.getElementById('spchtrs-viewer');
 const threadContainer = viewer.querySelector('#spchtrs-threads');
 
