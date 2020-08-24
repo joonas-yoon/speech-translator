@@ -12,7 +12,7 @@ function injectHtml(node) {
   wrapper.appendChild(threadContainer);
 
   const footer = document.createElement('div');
-  footer.className = 'footer';
+  footer.className = 'spchtrs-footer';
   const volumeCell = document.createElement('div');
   volumeCell.classList = 'volumebar gradient-animation-background';
   footer.appendChild(volumeCell);

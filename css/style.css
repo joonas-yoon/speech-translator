@@ -51,7 +51,7 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-#spchtrs-viewer .footer .volumebar {
+#spchtrs-viewer .spchtrs-footer .volumebar {
   display: inline-block;
   margin: 2px auto;
   width: 0%;

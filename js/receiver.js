@@ -69,7 +69,7 @@ async function appendResult(results, sendResponse) {
 
 // visualiser setup - create web audio api context and canvas
 function visualize(percentage) {
-  const footerContainer = viewer.querySelector('.footer');
+  const footerContainer = viewer.querySelector('.spchtrs-footer');
   const bar = footerContainer.querySelector('.volumebar');
   bar.style.width = percentage * 50 + '%';
 }
