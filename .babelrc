@@ -9,10 +9,17 @@
     "@babel/plugin-proposal-class-properties",
     "dynamic-import-node"
   ],
-  "ignore": ["js/jquery-3.3.1.min.js"],
+  "ignore": ["js/jquery-3.3.1.min.js", "js/build/*"],
   "env": {
     "production": {
-      "presets": ["minify"],
+      "comments": false,
+      "presets": [
+        ["minify", {
+          "builtIns": false,
+          "evaluate": false,
+          "mangle": false
+        }]
+      ],
       "plugins": [
         ["transform-remove-console", {
           "exclude": [ "error", "warn"]

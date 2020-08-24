@@ -2,6 +2,7 @@
 {
   "extends": ["eslint:recommended", "google", "prettier"],
   "plugins": ["prettier"],
+  "ignorePatterns": ["build/", "*.min.js"],
   "rules": {
     "semi": ["error", "always"],
     "linebreak-style": ["error", "windows"],

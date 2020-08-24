@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf build && env BABEL_ENV=production babel js/ pages/ -d build",
-    "lint": "eslint . -c .eslintrc --fix && prettier . -c .prettierrc --write"
+    "build": "env BABEL_ENV=production babel js/ --out-dir js/build",
+    "lint": "eslint js --fix && prettier . --write"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,13 @@
     "babel-minify": "^0.5.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^7.7.0",
+    "eslint-auto-fix": "^1.0.3",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
     "prettier": "^2.1.0"
   },
   "dependencies": {

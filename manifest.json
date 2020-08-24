@@ -4,7 +4,7 @@
   "version": "1.3.0",
   "manifest_version": 2,
   "background": {
-    "scripts": ["js/jquery-3.3.1.min.js", "build/background.js"],
+    "scripts": ["js/jquery-3.3.1.min.js", "js/build/background.js"],
     "persistent": false
   },
   "browser_action": {
@@ -16,7 +16,7 @@
       "matches": ["<all_urls>"],
       "all_frames": true,
       "css": ["css/style.css"],
-      "js": ["js/jquery-3.3.1.min.js", "build/inject.js", "build/receiver.js"]
+      "js": ["js/jquery-3.3.1.min.js", "js/build/inject.js", "js/build/receiver.js"]
     }
   ],
   "icons": {
@@ -24,14 +24,14 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "options_page": "pages/options.html",
+  "options_page": "options.html",
   "permissions": [
     "activeTab",
     "storage",
     "tabs",
     "tabCapture",
-    "http://localhost/"
+    "http://*/*"
   ],
-  "web_accessible_resources": ["style.css"],
+  "web_accessible_resources": ["css/style.css"],
   "content_security_policy": "script-src 'self' blob:; object-src 'self';"
 }
