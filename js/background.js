@@ -137,33 +137,40 @@ class Translator {
     const clipId = getCurrentClipname();
     fileData.append('audio', audio);
     fileData.append('filename', clipId);
-    $.ajax({
-      url: API_URL + '/app/collect',
-      type: 'post',
-      data: fileData,
-      processData: false,
-      contentType: false,
-    })
-      .done(function (response) {
-        if (response && response.results.length) {
-          console.log('response.results', response.results);
-          chrome.tabs.sendMessage(
-            self.tab.id,
-            {
-              method: 'recognize',
-              results: response.results || [],
-            },
-            async function (resp) {
-              for (const res of resp) {
-                await self.requestTranslate(res);
-              }
-            }
-          );
-        }
+    getOptions(function (options) {
+      fileData.append('langcode', options.srcLangCode);
+      $.ajax({
+        url: API_URL + '/app/collect',
+        type: 'post',
+        data: fileData,
+        processData: false,
+        contentType: false,
       })
-      .fail(function (xhr, status, errorThrown) {
-        errorMessage(self.tab.id, clipId, `${xhr.statusText} - ${xhr.status}`);
-      });
+        .done(function (response) {
+          if (response && response.results.length) {
+            console.log('response.results', response.results);
+            chrome.tabs.sendMessage(
+              self.tab.id,
+              {
+                method: 'recognize',
+                results: response.results || [],
+              },
+              async function (resp) {
+                for (const res of resp) {
+                  await self.requestTranslate(res);
+                }
+              }
+            );
+          }
+        })
+        .fail(function (xhr, status, errorThrown) {
+          errorMessage(
+            self.tab.id,
+            clipId,
+            `${xhr.statusText} - ${xhr.status}`
+          );
+        });
+    });
   }
 
   async requestTranslate(response) {
@@ -173,6 +180,9 @@ class Translator {
     const text = response.text;
 
     await getOptions(function (options) {
+      console.log(
+        `[src: ${options.srcLangCode}/${options.srcLangName}] -> [dst: ${options.dstLangCode}/${options.dstLangName}]`
+      );
       $.ajax({
         url: API_URL + '/app/translate',
         type: 'post',
