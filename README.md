@@ -9,6 +9,7 @@
 <div align=center>
 
 ![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/aafc06dd65d041ab8f1f322af0e5ac3d)](https://app.codacy.com/manual/joonas-yoon/speech-translator?utm_source=github.com&utm_medium=referral&utm_content=joonas-yoon/speech-translator&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/joonas-yoon/speech-translator-server.svg?branch=master)](https://travis-ci.org/joonas-yoon/speech-translator-server)
 [![GitHub stars](https://img.shields.io/github/stars/joonas-yoon/speech-translator)](https://github.com/joonas-yoon/speech-translator/stargazers)
 [![Code Style](https://img.shields.io/badge/code%20style-google-informational.svg)](https://google.github.io/styleguide/jsguide.html)
