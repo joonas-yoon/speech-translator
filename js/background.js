@@ -1,6 +1,6 @@
 'use strict';
 
-const API_URL = 'http://localhost/api';
+const API_URL = 'http://speechtranslator.net/api';
 
 function getRandomHash() {
   return Math.random().toString(36).substring(2, 12);

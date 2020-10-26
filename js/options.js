@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost/api';
+const API_URL = 'http://speechtranslator.net/api';
 // Store CSS data in the "local" storage area.
 const storage = chrome.storage.local;
 
